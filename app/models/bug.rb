@@ -1,4 +1,6 @@
 class Bug < ApplicationRecord
+    mount_uploader :screenshot, AvatarUploader
+
 
     validates :title, presence: true
     validates :status, presence: true

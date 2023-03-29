@@ -11,37 +11,30 @@
     </div>
     <br>
     <div class="field">
-        <%= f.label :deadline %><br />
-        <%= f.datetime :deadline %>
+        <%= f.label :deadline, "Deadline ( Year-Month-Day __ __ Hour--Minutes )" %><br />
+        <%= f.datetime_select :deadline %>
     </div>
     <br>
     <div class="field">
         <%= f.label :screenshot %><br />
-        <%= f.text_field :screenshot %>
+        <%= f.file_field :screenshot, multiple: true %>
     </div>
     <br>
-    <div class="field">
+    <div class="field bug_type" id="bug_type" data-controller="bug">
         <%= f.label :type %><br />
         <%= f.select :type, ['Feature','Bug'] %>
     </div>
     <br>
-    <div class="field">
-        <%= f.label :status %><br />
-        <%= f.text_field :status %>
-    </div>
-    <br>
+    
     <div class="field">
         <%= f.label :assign_id, "Assign To:" %><br />
-        <%= f.text_field :assign_id %>
+            <%= f.collection_select :users, User.where(user_type: 'Developer'), :id, :name do |cs| %>
+               <%= cs.label :name %>
+            <% end %>
     </div>
     <br>
-    <div class="field">
-        <%= f.label :created_id, "Created By:" %><br />
-        <%= f.text_field :created_id %>
-    </div>
-    <br>
-
+    
     <div class="actions">
-        <%= f.submit(@project.new_record? ? "Create Bug" : "Update Bug") %>
+        <%= f.submit(@bug.new_record? ? "Create Bug" : "Update Bug") %>
     </div>
 <% end %>

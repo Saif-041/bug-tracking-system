@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :projects
   resources :bugs
 
+  get '/populate_list', to: 'bugs#populate_list'
   # get '/projects', to: 'projects#index'
   # get '/project/new', to: 'projects#new'
   # post '/projects', to: 'projects#create'

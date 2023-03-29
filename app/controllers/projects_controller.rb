@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-    before_action :find_project, only: [:show, :edit, :update]
+    before_action :find_project, only: [:show, :edit, :update, :destroy]
     # before_action :validate_user, only: [:show, :create, :update, :destroy]
 
     def new
@@ -21,6 +21,9 @@ class ProjectsController < ApplicationController
         if @project.save
             flash[:success] = "Project created successfully."
             redirect_to projects_path
+        else
+            flash[:danger] = "Project was not created."
+            render 'new', status: 300
         end
     end
 
@@ -41,8 +44,6 @@ class ProjectsController < ApplicationController
     end
 
     def destroy
-        byebug
-        @project = Project.find(params[:id])
         if @project.destroy
             flash[:danger] = "Project deleted successfully."
             redirect_to projects_path
