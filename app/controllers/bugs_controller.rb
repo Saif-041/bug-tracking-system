@@ -15,6 +15,7 @@ class BugsController < ApplicationController
     end
 
     def create
+        byebug
         @bug = Bug.new(bug_params)
         if @bug.save
             flash[:success] = "Bug created successfully."
@@ -67,7 +68,8 @@ class BugsController < ApplicationController
         end
 
         def bug_params
-            params.require(:bug).permit(:title)
+            # params.require(:bug).permit(:title, :description, :deadline, {screenshot: []}, :type, :assign_id)
+            params.require(:bug).permit(:title, :description, :deadline, :screenshot, :type, :assign_id)
         end
 
 

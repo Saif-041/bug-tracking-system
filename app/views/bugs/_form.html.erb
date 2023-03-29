@@ -11,26 +11,26 @@
     </div>
     <br>
     <div class="field">
-        <%= f.label :deadline, "Deadline ( Year-Month-Day __ __ Hour--Minutes )" %><br />
-        <%= f.datetime_select :deadline %>
+        <%= f.label :deadline, "Set Deadline" %><br />
+        <%= f.date_select :deadline %>
     </div>
     <br>
     <div class="field">
-        <%= f.label :screenshot %><br />
+        <%= f.label :screenshot, "Add Screenshot" %><br />
         <%= f.file_field :screenshot, multiple: true %>
     </div>
     <br>
     <div class="field bug_type" id="bug_type" data-controller="bug">
-        <%= f.label :type %><br />
+        <%= f.label :type, "Bug Type" %><br />
         <%= f.select :type, ['Feature','Bug'] %>
     </div>
     <br>
     
     <div class="field">
         <%= f.label :assign_id, "Assign To:" %><br />
-            <%= f.collection_select :users, User.where(user_type: 'Developer'), :id, :name do |cs| %>
-               <%= cs.label :name %>
-            <% end %>
+        <%= f.collection_select :assign_id, User.where(user_type: 'Developer'), :id, :name do |cs| %>
+            <%= cs.label :name %>
+        <% end %>
     </div>
     <br>
     
