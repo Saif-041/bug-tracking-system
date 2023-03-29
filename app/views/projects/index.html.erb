@@ -1,0 +1,43 @@
+<h1> Showing All Projects </h1>
+
+<%# <div class="container">
+    Name: <%= @projects.name
+</div> %>
+
+<% @projects.each do |project| %>
+    <div>
+        <span>
+            <em>
+                Project Name: 
+            </em>
+            <strong>
+                <%= link_to project.name, project %>
+            </strong>
+        </span>
+    </div>
+    <div>
+        <span>
+            <em>
+                Project Developers: 
+            </em>
+            <strong>
+                <%= User.find_by_id(project.user_id).name %>
+            </strong>
+        </span>
+    </div>
+    <div>
+        <span>
+            <em>
+                Project QA's: 
+            </em>
+            <strong>
+                <%= User.find_by_id(project.user_id).name %>
+            </strong>
+        </span>
+    </div>
+
+    <%#= link_to "Show this Project", project %>
+    <%= link_to "Edit this Project", edit_project_path(project) %>
+    <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to ddelete #{project.name.capitalize} project?" }, class: "btn btn-xs" %>
+    <hr>
+<% end %>
