@@ -1,5 +1,5 @@
-class ProjectsController < ApplicationController
-    before_action :find_project, only: [:show, :edit, :update]
+class BugsController < ApplicationController
+    before_action :find_bug, only: [:show, :edit, :update]
     # before_action :validate_user, only: [:show, :create, :update, :destroy]
 
     def new
@@ -16,7 +16,7 @@ class ProjectsController < ApplicationController
 
     def create
         # byebug
-        @project = Project.new(project_params)
+        @project = Project.new(bug_params)
         @project.user_id = current_user.id
         if @project.save
             flash[:success] = "Project created successfully."
@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
         # @usr.project = @project
         # @usr.user_id = params[:project][:users]
         byebug
-        if @project.update(project_params) && @usr.save
+        if @project.update(bug_params) && @usr.save
             flash[:success] = "Project updated successfully."
             redirect_to projects_path
         else
@@ -53,12 +53,12 @@ class ProjectsController < ApplicationController
 
     private
 
-        def find_project
+        def find_bug
             @project = Project.find(params[:id])
         end
 
-        def project_params
-            params.require(:project).permit(:name)
+        def bug_params
+            params.require(:bug).permit(:title)
         end
 
 

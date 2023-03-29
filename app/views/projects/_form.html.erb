@@ -4,7 +4,32 @@
     <%= f.label :name %><br />
     <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
   </div>
+  <br>
 
+  <div class="field">
+    <%= f.label :users, "Assign To:" %>
+    <%= f.collection_select :users, User.where(user_type: 'Developer').or(User.where(user_type: 'QA')), :id, :name do |cs| %>
+      <%= cs.label :name, ("dev-" + :name + "-Dev") %>
+    <% end %>
+    <%#= f.collection_select :users, User.all, :id, :name do |cs| %>
+      <%#= cs.label(class: "checkbox-inline input-checkbox") {cs.select(class: "checkbox") + "-Dev" } %>
+    <%# end %>
+
+    <%#= f.select :assign_to, ['none', 'QA', 'Developer'], selected: 'none' %>
+    <%#= f.check_box :assign_to, {:class => "myclass", :style => "mystyle"}, "QA", "Developer" %>
+  </div>
+  <%# <br> %>
+  <%# <div class="col-md-offset-2 col-md-8"> %>
+      <%#= f.collection_check_boxes :users, User.all, :id, :name do |cb| %>
+          <%# cb.label(class: "checkbox-inline input-checkbox") {cb.check_box(class: "checkbox") + cb.text } %>
+      <%# end %>
+  <%# </div> %>
+
+  <%# <div class="field"> %>
+    <%# <%= f.label :dev, "Developer's List:" %> 
+    <%#= f.check_box :dev, {}, ["QA", "Developer"] %>
+  <%# </div>%>
+  <br> 
 
   <div class="actions">
     <%= f.submit(@project.new_record? ? "Add Project" : "Update Project") %>

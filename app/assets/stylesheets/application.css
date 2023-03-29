@@ -17,3 +17,8 @@
  .navbar-nav {
     list-style-type: none;
  }
+
+li.nav-item {
+   margin-left: 18px;
+   margin-right: 18px;
+}

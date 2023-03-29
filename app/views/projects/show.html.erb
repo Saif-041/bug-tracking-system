@@ -16,7 +16,9 @@
                 Project Developers: 
             </strong>
             <em>
-                <%= User.find_by_id(@project.user_id).name %>
+                <%= User.where(user_type: 'Developer').each do |user| %>
+                    <%= user.name %>
+                <% end %>
             </em>
         </span>
     </div>
@@ -26,11 +28,18 @@
                 Project QA's: 
             </strong>
             <em>
-                <%= User.find_by_id(@project.user_id).name %>
+                <%#= UserProject.where(project_id: @project.id).each do |usr| %>
+                    <%#= User.find_by_id(usr.user_id).name %>
+                <%# end %>
+                <%= UserProject.where(project_id: @project.user_id).each do |user| %>
+                    <p>
+                        <%= User.where(id: user.user_id, user_type: 'QA').name %>
+                    </p>
+                <% end %>
             </em>
         </span>
     </div>
 
     <%= link_to "Edit this Project", edit_project_path(@project) %>
-    <%= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to ddelete #{@project.name.capitalize} project?" }, class: "btn btn-xs" %>
+    <%= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete #{@project.name.capitalize} project?" }, class: "btn btn-xs" %>
     

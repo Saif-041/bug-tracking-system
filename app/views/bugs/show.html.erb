@@ -1,0 +1,91 @@
+
+<h1>Bug Details | Project Title: <%= @project.name %> </h1>
+
+<div>
+    <span>
+        <strong>
+            Bug Title: 
+        </strong>
+        <em>
+            <%= @bug.title %>
+        </em>
+    </span>
+</div>
+<div>
+    <span>
+        <strong>
+            Description: 
+        </strong>
+        <em>
+            <%= @bug.description %>
+        </em>
+    </span>
+</div>
+<div>
+    <span>
+        <strong>
+            Deadline: 
+        </strong>
+        <em>
+            <%= @bug.deadline %>
+        </em>
+    </span>
+</div>
+<div>
+    <span>
+        <strong>
+            Screen Shot: 
+        </strong>
+        <em>
+            <%= @bug.screenshot %>
+        </em>
+    </span>
+</div>
+<div>
+    <span>
+        <strong>
+            Bug Type: 
+        </strong>
+        <em>
+            <%= @bug.type %>
+        </em>
+    </span>
+</div>
+<div>
+    <span>
+        <strong>
+            Assigned To: 
+        </strong>
+        <em>
+            <p>
+                <%= User.find_by_id(@bug.assign_id).name %>
+            </p>
+        </em>
+    </span>
+</div>
+<div>
+    <span>
+        <strong>
+            Status: 
+        </strong>
+        <em>
+            <%= @bug.status %>
+        </em>
+    </span>
+</div>
+
+<div>
+    <span>
+        <strong>
+            Created By: 
+        </strong>
+        <em>
+            <p>
+                <%= @bug.created_id %>
+            </p>
+        </em>
+    </span>
+</div>
+
+<%= link_to "Edit this Bug", edit_bug_path(@bug) %>
+<%= link_to ('Remove this Bug'), @bug, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" %>

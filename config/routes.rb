@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
 
   resources :projects
+  resources :bugs
+
   # get '/projects', to: 'projects#index'
   # get '/project/new', to: 'projects#new'
   # post '/projects', to: 'projects#create'
