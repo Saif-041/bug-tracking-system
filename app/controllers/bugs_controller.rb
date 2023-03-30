@@ -6,7 +6,6 @@ class BugsController < ApplicationController
 
     def new
         @bug = Bug.new
-        # @project = Project.find_by_id(params.require(:project_id))
     end
 
     def index
@@ -72,8 +71,8 @@ class BugsController < ApplicationController
         end
 
         def bug_params
-            # params.require(:bug).permit(:title, :description, :deadline, {screenshot: []}, :type, :assign_id)
-            params.require(:bug).permit(:title, :description, :deadline, :screenshot, :type, :assign_id)
+            params.require(:bug).permit(:title, :description, :deadline, {screenshot: []}, :type, :assign_id)
+            # params.require(:bug).permit(:title, :description, :deadline, :screenshot, :type, :assign_id)
         end
 
         def find_project

@@ -33,8 +33,9 @@
         </span>
     </div>
 
-    <%= link_to "Edit this Project", edit_project_path(@project) %>
-    <%= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete #{@project.name.capitalize} project?" }, class: "btn btn-xs" %>
+    <%= link_to "Edit this Project", edit_project_path(@project) if is_manager? %>
+    <%= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete #{@project.name.capitalize} project?" }, class: "btn btn-xs" if is_manager? %>
     
     <br>
-    <%= link_to "Report Bug", new_project_bug_path(@project.bugs, :project_id => @project.id) %>
+    <%#= link_to "Report Bug", new_project_bug_path(@project.bugs, :project_id => @project.id) if is_qa? %>
+    <%= link_to "Report Bug", new_project_bug_path if is_qa? %>
