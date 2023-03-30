@@ -1,17 +1,21 @@
 class ProjectsController < ApplicationController
     before_action :find_project, only: [:show, :edit, :update, :destroy]
+    before_action :find_users, only: [:show, :edit, :update, :new]
     # before_action :validate_user, only: [:show, :create, :update, :destroy]
+    # before_action :remember_page, only: [:show]
 
     def new
         @project = Project.new
     end
 
     def index
-        @projects = Project.where(user_id: current_user.id)
         # byebug
+        @projects = Project.where(user_id: current_user.id) if is_manager?
+        @projects = current_user.projects if !is_manager?
     end
 
     def edit
+        # byebug
     end
 
     def create
@@ -31,11 +35,7 @@ class ProjectsController < ApplicationController
     end
 
     def update
-        @usr = UserProject.create(project: @project, user_id: params[:project][:users])
-        # @usr.project = @project
-        # @usr.user_id = params[:project][:users]
-        byebug
-        if @project.update(project_params) && @usr.save
+        if @project.update(project_params)
             flash[:success] = "Project updated successfully."
             redirect_to projects_path
         else
@@ -58,9 +58,16 @@ class ProjectsController < ApplicationController
             @project = Project.find(params[:id])
         end
 
-        def project_params
-            params.require(:project).permit(:name)
-        end
+        def find_users
+            # @user = User.select("id,name").where(user_type: 'Developer').or(User.select("id,name").where(user_type: 'QA')).to_a.map{|user| [user.id, user.name] }.to_h
+            @user = User.select("id,name").where(user_type: 'Developer').or(User.select("id,name").where(user_type: 'QA'))
+        end 
 
+        def project_params            
+            p = params.require(:project).permit(:name, {users: []})
+            p["users"] = p["users"].reject(&:empty?).map(&:to_i)
+            p["users"] = p["users"].map { |id| User.find(id) }
+            p
+        end
 
 end

@@ -1,9 +1,12 @@
 class BugsController < ApplicationController
     before_action :find_bug, only: [:show, :edit, :update, :destroy]
+    before_action :find_project, only: [:edit, :new]
     # before_action :validate_user, only: [:create, :update, :destroy]
+    # before_action :remember_page, only: [:new, :index]
 
     def new
         @bug = Bug.new
+        # @project = Project.find_by_id(params.require(:project_id))
     end
 
     def index
@@ -12,6 +15,7 @@ class BugsController < ApplicationController
     end
 
     def edit
+        # @project = Project.find_by_id(params.require(:project_id))
     end
 
     def create
@@ -70,6 +74,10 @@ class BugsController < ApplicationController
         def bug_params
             # params.require(:bug).permit(:title, :description, :deadline, {screenshot: []}, :type, :assign_id)
             params.require(:bug).permit(:title, :description, :deadline, :screenshot, :type, :assign_id)
+        end
+
+        def find_project
+            @project = Project.find_by_id(params.require(:project_id))
         end
 
 

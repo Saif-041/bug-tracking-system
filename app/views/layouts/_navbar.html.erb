@@ -6,22 +6,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <%= link_to "Project", projects_path %>
-          <%# <a class="nav-link" href="#">Project</a> %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Bugs",  bugs_path%>
-          <%# <a class="nav-link" href="#">Project</a> %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "New Project", new_project_path %>
-          <%# <a class="nav-link" href="#">Project</a> %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Create Bug", new_bug_path %>
-          <%# <a class="nav-link" href="#">Project</a> %>
-        </li>
+        <% if current_user %>
+          <li class="nav-item">
+            <%= link_to "Project", projects_path %>
+            <%# <a class="nav-link" href="#">Project</a> %>
+          </li>
+          <% if is_manager? %>
+            <li class="nav-item">
+              <%= link_to "New Project", new_project_path %>
+            </li>
+          <% end %>
+        <% end %>
       </ul>
       <ul class="navbar-nav">
         <% if current_user %>

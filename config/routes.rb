@@ -11,9 +11,9 @@ Rails.application.routes.draw do
   root "main#home"
 
 
-  resources :projects
-  resources :bugs
-
+  resources :projects do
+    resources :bugs
+  end
   get '/populate_list', to: 'bugs#populate_list'
   # get '/projects', to: 'projects#index'
   # get '/project/new', to: 'projects#new'

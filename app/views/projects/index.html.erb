@@ -1,39 +1,60 @@
 <h1> Showing All Projects </h1>
 
-<% @projects.each do |project| %>
-    <div>
-        <span>
-            <em>
-                Project Name: 
-            </em>
-            <strong>
-                <%= link_to project.name, project %>
-            </strong>
-        </span>
-    </div>
-    <div>
-        <span>
-            <em>
-                Project Developers: 
-            </em>
-            <strong>
-                <%= User.find_by_id(project.user_id).name %>
-            </strong>
-        </span>
-    </div>
-    <div>
-        <span>
-            <em>
-                Project QA's: 
-            </em>
-            <strong>
-                <%= User.find_by_id(project.user_id).name %>
-            </strong>
-        </span>
-    </div>
+<% if @projects.count == 0 %>
+    <p>
+        No Project's assigned yet!
+    </p>
+<% else %>
 
-    <%#= link_to "Show this Project", project %>
-    <%= link_to "Edit this Project", edit_project_path(project) %>
-    <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to ddelete #{project.name.capitalize} project?" }, class: "btn btn-xs" %>
-    <hr>
+    <% @projects.each do |project| %>
+        <div>
+            <span>
+                <em>
+                    Project Name: 
+                </em>
+                <strong>
+                    <%= link_to project.name, project %>
+                </strong>
+            </span>
+        </div>
+        <div>
+            <span>
+                <em>
+                    Project Developers: 
+                </em>
+                <strong>
+                    <ul>
+                    <%= project.users.where(user_type: "Developer").each do |dev| %>
+                        <li>
+                            <%= dev.name.capitalize %> -
+                        </li>
+                    <% end%>
+                    </ul>
+                </strong>
+            </span>
+        </div>
+        <div>
+            <span>
+                <em>
+                    Project QA's: 
+                </em>
+                    <em>
+                        <%= project.users.where(user_type: "QA").each do |dev| %>
+                            <h6>
+                                <%= dev.name.capitalize %>
+                            </h6>
+                        <% end%>
+                    </em>
+            </span>
+        </div>
+        <% if project.bugs.count != 0 %>
+            <%= link_to project.bugs.count.to_s + " bugs", "/project/#{project.id}/bugs", :project_id => project.id %>
+            <br>
+        <% end %>
+        <%#= link_to "Show this Project", project %>
+        <%= link_to "Edit this Project", edit_project_path(project) if is_manager? %> 
+        <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to ddelete #{project.name.capitalize} project?" }, class: "btn btn-xs" if is_manager? %>
+
+        <hr>
+    <% end %>
 <% end %>

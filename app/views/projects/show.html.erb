@@ -27,19 +27,14 @@
             <strong>
                 Project QA's: 
             </strong>
-            <em>
-                <%#= UserProject.where(project_id: @project.id).each do |usr| %>
-                    <%#= User.find_by_id(usr.user_id).name %>
-                <%# end %>
                 <%= UserProject.where(project_id: @project.user_id).each do |user| %>
-                    <p>
                         <%= User.where(id: user.user_id, user_type: 'QA').name %>
-                    </p>
                 <% end %>
-            </em>
         </span>
     </div>
 
     <%= link_to "Edit this Project", edit_project_path(@project) %>
     <%= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete #{@project.name.capitalize} project?" }, class: "btn btn-xs" %>
     
+    <br>
+    <%= link_to "Report Bug", new_project_bug_path(@project.bugs, :project_id => @project.id) %>

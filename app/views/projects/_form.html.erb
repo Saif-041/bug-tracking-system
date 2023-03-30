@@ -8,9 +8,15 @@
 
   <div class="field">
     <%= f.label :users, "Assign To:" %>
-    <%= f.collection_select :users, User.where(user_type: 'Developer').or(User.where(user_type: 'QA')), :id, :name do |cs| %>
-      <%= cs.label :name, ("dev-" + :name + "-Dev") %>
-    <% end %>
+    <%#= f.select :users, options_for_select(@user), :class => 'genForm_dropBox' %>
+    <%= f.select :users, options_from_collection_for_select(@user, "id", "name", @project.users.ids), {:include_blank => true},:multiple=> true,:validate=> true,:class=> 'form-control' %> 
+    
+    
+    <%#= f.grouped_collection_select :users, @user, :id, :name, {}, :multiple => true %>
+    <%#= f.select :users, {},  @user , :multiple => true %>
+    <%#= f.collection_select :users, User.where(user_type: 'Developer').or(User.where(user_type: 'QA')), :id, :name %>
+      <%#= cs.label :name, (:name) %>
+    <%# end %>
     <%#= f.collection_select :users, User.all, :id, :name do |cs| %>
       <%#= cs.label(class: "checkbox-inline input-checkbox") {cs.select(class: "checkbox") + "-Dev" } %>
     <%# end %>
