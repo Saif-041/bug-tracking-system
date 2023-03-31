@@ -47,7 +47,7 @@
                     </em>
             </span>
         </div>
-        <% if project.bugs.count != 0 %>
+        <% if project.bugs.count != 0 && (project.bugs.find_by(assign_id: current_user.id) || !is_developer?) %>
             <%= link_to project.bugs.count.to_s + " bugs", project_bugs_path(project), :project_id => project.id %>
             <br>
         <% end %>

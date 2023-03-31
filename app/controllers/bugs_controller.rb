@@ -63,7 +63,9 @@ class BugsController < ApplicationController
 
         def bug_params
             # params.require(:bug).permit(:title, :description, :deadline, :bug_type, :assign_id)
-            params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id)
+            p = params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id)
+            p = params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id, :bug_status) if is_developer?
+            p
         end
 
         def find_project
