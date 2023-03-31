@@ -15,11 +15,13 @@
             <strong>
                 Project Developers: 
             </strong>
-            <em>
-                <%= User.where(user_type: 'Developer').each do |user| %>
-                    <%= user.name %>
-                <% end %>
-            </em>
+            <ul>
+                <% @project.users.where(user_type: "Developer").each do |dev| %>
+                    <li>
+                        <%= dev.name.capitalize %>
+                    </li>
+                <% end%>
+            </ul>
         </span>
     </div>
     <div>
@@ -27,9 +29,13 @@
             <strong>
                 Project QA's: 
             </strong>
-                <%= UserProject.where(project_id: @project.user_id).each do |user| %>
-                        <%= User.where(id: user.user_id, user_type: 'QA').name %>
-                <% end %>
+            <ul>
+                <% @project.users.where(user_type: "QA").each do |qa| %>
+                    <li>
+                        <%= qa.name.capitalize %>
+                    </li>
+                <% end%>
+            </ul>
         </span>
     </div>
 

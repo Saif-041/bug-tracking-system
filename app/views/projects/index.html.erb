@@ -24,9 +24,9 @@
                 </em>
                 <strong>
                     <ul>
-                    <%= project.users.where(user_type: "Developer").each do |dev| %>
+                    <% project.users.where(user_type: "Developer").each do |dev| %>
                         <li>
-                            <%= dev.name.capitalize %> -
+                            <%= dev.name.capitalize %>
                         </li>
                     <% end%>
                     </ul>
@@ -38,13 +38,13 @@
                 <em>
                     Project QA's: 
                 </em>
-                    <em>
-                        <%= project.users.where(user_type: "QA").each do |dev| %>
-                            <h6>
-                                <%= dev.name.capitalize %>
-                            </h6>
-                        <% end%>
-                    </em>
+                <ul>
+                    <% project.users.where(user_type: "QA").each do |qa| %>
+                        <li>
+                            <%= qa.name.capitalize %>
+                        </li>
+                    <% end%>
+                </ul>
             </span>
         </div>
         <% if project.bugs.count != 0 && (project.bugs.find_by(assign_id: current_user.id) || !is_developer?) %>
