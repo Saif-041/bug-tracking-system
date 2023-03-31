@@ -12,7 +12,8 @@ class BugsController < ApplicationController
 
     def index
         @bugs = Bug.where(created_id: current_user.id) if is_qa?
-        @bugs = Bug.where(assign_id: current_user.id)
+        @bugs = Bug.where(assign_id: current_user.id) if is_developer?
+        @bugs = @project.bugs if is_manager?
     end
 
     def edit
@@ -23,7 +24,6 @@ class BugsController < ApplicationController
         @project = Project.find(params[:project_id])
         @bug = @project.bugs.build(bug_params)
         @bug.created_id = current_user.id
-        byebug
         if @bug.save
             flash[:success] = "Bug created successfully."
             redirect_to project_bugs_path
@@ -35,13 +35,12 @@ class BugsController < ApplicationController
 
     def show
         @project = @bug.project
-        # @project = Project.find_by(id: (UserProject.find_by(user_id: current_user.id).project_id))
     end
 
     def update
-        if @bug.update(bug_params) && @usr.save
+        if @bug.update(bug_params)
             flash[:success] = "Bug updated successfully."
-            redirect_to project_bugs_path
+            redirect_to projects_path
         else
             render 'edit', status: 300
         end
