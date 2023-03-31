@@ -15,14 +15,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_130723) do
     t.text "title"
     t.string "description"
     t.datetime "deadline"
-    t.string "status", default: "New"
-    t.string "type"
-    t.integer "assign_id", null: false
-    t.integer "created_id", null: false
+    t.string "bug_status", default: "New"
+    t.string "bug_type"
+    t.integer "assign_id"
+    t.integer "created_id"
     t.integer "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "screenshot"
+    t.index ["assign_id"], name: "index_bugs_on_assign_id"
+    t.index ["created_id"], name: "index_bugs_on_created_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -53,4 +55,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_130723) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bugs", "users", column: "assign_id"
+  add_foreign_key "bugs", "users", column: "created_id"
 end

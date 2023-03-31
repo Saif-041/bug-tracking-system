@@ -48,7 +48,7 @@
             </span>
         </div>
         <% if project.bugs.count != 0 %>
-            <%= link_to project.bugs.count.to_s + " bugs", "/project/#{project.id}/bugs", :project_id => project.id %>
+            <%= link_to project.bugs.count.to_s + " bugs", project_bugs_path(project), :project_id => project.id %>
             <br>
         <% end %>
         <%#= link_to "Show this Project", project %>

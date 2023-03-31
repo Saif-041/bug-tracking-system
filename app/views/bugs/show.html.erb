@@ -1,5 +1,5 @@
 
-<h1>Bug Details | Project Title: <%= @project.name %> </h1>
+<h1>Bug Details | Project Title: <%= @project.name.capitalize %> </h1>
 
 <div>
     <span>
@@ -36,8 +36,11 @@
         <strong>
             Screen Shot: 
         </strong>
+        <div>
+            <%= image_tag @bug.screenshot.url %>
+        </div>
         <em>
-            <%= @bug.screenshot %>
+            <%#= @bug.screenshot %>
         </em>
     </span>
 </div>
@@ -47,7 +50,7 @@
             Bug Type: 
         </strong>
         <em>
-            <%= @bug.type %>
+            <%= @bug.bug_type %>
         </em>
     </span>
 </div>
@@ -69,7 +72,7 @@
             Status: 
         </strong>
         <em>
-            <%= @bug.status %>
+            <%= @bug.bug_status %>
         </em>
     </span>
 </div>

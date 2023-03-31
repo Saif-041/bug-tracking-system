@@ -1,5 +1,4 @@
-
-<% form_for @project_bug do |f| %>
+<%= form_for @bug, url: project_bugs_path do |f| %>
     <div class="field">
         <%= f.label :title %><br />
         <%= f.text_field :title, autofocus: true %>
@@ -21,20 +20,25 @@
     </div>
     <br>
     <div class="field bug_type" id="bug_type" data-controller="bug">
-        <%= f.label :type, "Bug Type" %><br />
-        <%= f.select :type, ['Feature','Bug'] %>
+        <%= f.label :bug_type, "Bug Type" %><br />
+        <%= f.select :bug_type, ['Feature','Bug'] %>
     </div>
     <br>
     
-    <div class="field">
-        <%= f.label :assign_id, "Assign To:" %><br />
-        <%= f.collection_select :assign_id, User.where(user_type: 'Developer'), :id, :name do |cs| %>
-            <%= cs.label :name %>
-        <% end %>
-    </div>
-    <br>
+    <% if @bug.new_record? %>
+        <div class="field">
+            <%= f.label :assign_id, "Assign To:" %><br />
+            <%= f.collection_select :assign_id, User.where(user_type: 'Developer'), :id, :name do |cs| %>
+                <%= cs.label :name %>
+            <% end %>
+        </div>
+        <br>
+    <% end %>
     
     <div class="actions">
         <%= f.submit(@bug.new_record? ? "Create Bug" : "Update Bug") %>
     </div>
 <% end %>
+
+<br>
+<%= link_to "Back to Bugs listing", project_bugs_path(@bug.project) %>

@@ -38,4 +38,6 @@
     
     <br>
     <%#= link_to "Report Bug", new_project_bug_path(@project.bugs, :project_id => @project.id) if is_qa? %>
-    <%= link_to "Report Bug", new_project_bug_path if is_qa? %>
+    <%= link_to "Report Bug", new_project_bug_path("", :project_id => @project.id) if is_qa? %>
+    <br>
+    <%= link_to "Back to Projects", projects_path %>

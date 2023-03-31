@@ -9,17 +9,14 @@ class ProjectsController < ApplicationController
     end
 
     def index
-        # byebug
         @projects = Project.where(user_id: current_user.id) if is_manager?
         @projects = current_user.projects if !is_manager?
     end
 
     def edit
-        # byebug
     end
 
     def create
-        # byebug
         @project = Project.new(project_params)
         @project.user_id = current_user.id
         if @project.save
@@ -59,7 +56,6 @@ class ProjectsController < ApplicationController
         end
 
         def find_users
-            # @user = User.select("id,name").where(user_type: 'Developer').or(User.select("id,name").where(user_type: 'QA')).to_a.map{|user| [user.id, user.name] }.to_h
             @user = User.select("id,name").where(user_type: 'Developer').or(User.select("id,name").where(user_type: 'QA'))
         end 
 

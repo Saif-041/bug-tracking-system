@@ -2,8 +2,8 @@
     <strong>
         Create Bug | 
     </strong> 
-        Project: <u> <%= @project.name %> </u>
+        Project: <u> <%= @bug.project.name.capitalize %> </u>
 </div>
 <br>
 
-<%#= render 'form' %>
+<%= render 'form' %>

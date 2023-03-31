@@ -4,10 +4,10 @@ class CreateBugs < ActiveRecord::Migration[7.0]
       t.text :title
       t.string :description
       t.datetime :deadline
-      t.string :status, default: 'New'
-      t.string :type
-      t.integer :assign_id, null: false, foreign_key: true
-      t.integer :created_id, null: false, foreign_key: true
+      t.string :bug_status, default: 'New'
+      t.string :bug_type
+      t.references :assign, foreign_key: {to_table: :users}
+      t.references :created, foreign_key: {to_table: :users}
       t.integer :project_id, null: false, foreign_key: true
 
       t.timestamps

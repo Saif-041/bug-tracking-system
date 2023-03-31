@@ -12,4 +12,5 @@ class User < ApplicationRecord
   has_many :projects, through: :user_projects
 
   has_many :bugs
+  # , foreign_key: :assign_id
 end

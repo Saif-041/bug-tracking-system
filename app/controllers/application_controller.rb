@@ -11,6 +11,11 @@ class ApplicationController < ActionController::Base
       current_user && current_user.user_type == "QA"
     end
 
+    helper_method :is_developer?
+    def is_developer?
+      current_user && current_user.user_type == "Developer"
+    end
+
     protected
   
     def configure_permitted_parameters
