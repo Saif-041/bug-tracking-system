@@ -1,0 +1,39 @@
+<%# <h1 class="mb-4 text-6xl text-center">Errors#not_found</h1> %>
+<%# <p class="text-center">Find me in app/views/errors/not_found.html.erb</p> %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%= stylesheet_link_tag '404.css' %>
+  <%#= javascript_include_tag "404.js", defer: true %>
+  <%#= render "layouts/main/home" %>
+</head>
+
+<body>
+  <%= render "layouts/main/home" %>
+<header>
+  <div class="wrap">
+    <h1>404</h1>
+
+    <%# <iframe class="responsive404" width="560" height="315" src=""
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe> %>
+
+
+    <p>Looks like you went beyond the world. This world does not exist.</p>
+
+    <a class="button404" href="/">Earth</a>
+  </div>
+</header>
+<%= render "layouts/footer" %>
+<%# <script>
+    let man = document.getElementById("man");
+    let year = new Date().getFullYear();
+
+    man.innerHTML = `&copy; ${year} Copyright World of Coding`;
+</script> %>
+</body>
+
+</html>

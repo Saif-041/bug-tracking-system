@@ -1,4 +1,8 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::Base#Actions
+  around_filter :catch_exceptions
+    before_action :authenticate_user! #-> routes to the login / signup if not authenticated
+    AUTHENTICATE_USER_EXCEPT_CONTROLLERS = ['main']
+    
     before_action :configure_permitted_parameters, if: :devise_controller?
 
     helper_method :is_manager?
@@ -16,12 +20,28 @@ class ApplicationController < ActionController::Base
       current_user && current_user.user_type == "Developer"
     end
 
+    def authenticate_user!
+      unless AUTHENTICATE_USER_EXCEPT_CONTROLLERS.include?(params[:controller])
+       super
+      end
+    end
+
     protected
   
     def configure_permitted_parameters
         devise_parameter_sanitizer.permit(:sign_up) do |user_params|
             user_params.permit( :user_type, :name, :email, :password, :password_confirmation)
         end
+    end
+
+    def catch_exceptions
+      yield
+      rescue => exception
+      if exception.is_a?(ActiveRecord::RecordNotFound)
+        render_page_not_found
+      else
+        render_error
+      end
     end
 
     private

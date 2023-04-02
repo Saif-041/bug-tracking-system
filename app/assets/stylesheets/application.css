@@ -16,6 +16,11 @@
 
  .navbar-nav {
     list-style-type: none;
+    background-color: #FFC72C;
+ }
+
+ .container-fluid, .btn {
+    background-color: #FFC72C;
  }
 
 li.nav-item {
@@ -27,3 +32,16 @@ li.nav-item {
 .heading {
    font-size:xx-large;
 }
+
+#news-letter {
+   background-color: #fff;
+}
+
+div, .btn{
+   color: #27251F;
+}
+
+br {
+   background-color: #fff;
+}
+
