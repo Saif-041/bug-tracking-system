@@ -43,5 +43,11 @@ div, .btn{
 
 br {
    background-color: #fff;
+   display: block;
+   margin: 1px 0;
 }
 
+.seperator{
+   color: #27251F;
+   background-color:#27251F;
+}

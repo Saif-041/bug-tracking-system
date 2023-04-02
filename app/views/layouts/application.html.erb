@@ -25,13 +25,15 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <%= notice if !notice.nil? %>
+    <%= alert if !alert.nil? %>
+    <%# <p class="alert"><%= alert </p> %>
     <%= render 'layouts/navbar' %>
+    <%= render 'layouts/messages' %>
     <div class="container center">
       <%= yield %>
     </div>
-    <%= render 'layouts/slide' %>
+    <%= render 'layouts/slide' if current_user.nil? %>
     <%= render 'layouts/footer' %>
   </body>
 </html>

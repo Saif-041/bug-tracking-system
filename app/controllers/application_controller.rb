@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base#Actions
-  around_filter :catch_exceptions
-    before_action :authenticate_user! #-> routes to the login / signup if not authenticated
-    AUTHENTICATE_USER_EXCEPT_CONTROLLERS = ['main']
+  # around_action :catch_exceptions
+    before_action :authenticate_user!
+    # AUTHENTICATE_USER_EXCEPT_CONTROLLERS = ['main']
     
     before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -20,11 +20,11 @@ class ApplicationController < ActionController::Base#Actions
       current_user && current_user.user_type == "Developer"
     end
 
-    def authenticate_user!
-      unless AUTHENTICATE_USER_EXCEPT_CONTROLLERS.include?(params[:controller])
-       super
-      end
-    end
+    # def authenticate_user!
+    #   unless AUTHENTICATE_USER_EXCEPT_CONTROLLERS.include?(params[:controller])
+    #    super
+    #   end
+    # end
 
     protected
   
@@ -34,15 +34,15 @@ class ApplicationController < ActionController::Base#Actions
         end
     end
 
-    def catch_exceptions
-      yield
-      rescue => exception
-      if exception.is_a?(ActiveRecord::RecordNotFound)
-        render_page_not_found
-      else
-        render_error
-      end
-    end
+    # def catch_exceptions
+    #   yield
+    #   rescue => exception
+    #   if exception.is_a?(ActiveRecord::RecordNotFound)
+    #     render 'errors/internal_server_error'
+    #   else
+    #     render 'errors/not_found'
+    #   end
+    # end
 
     private
 
