@@ -1,0 +1,106 @@
+<h1 align="center">
+    Listing All Bugs
+</h1>
+
+<div class="container-fluid">
+    <hr/>
+</div>
+
+<br>
+
+<% if @bugs.count == 0 %>
+    <p>
+        No Bug <%= "reported" if !is_qa? %> yet!
+    </p>
+<% else %>
+
+    <%#  %>
+    <ol>
+        <% @bugs.each do |bug| %>
+        <li>
+            <div class="container">
+                <div>
+                    <span class="container">
+                        <strong>
+                            Project Name:
+                        </strong>
+                        <em>
+                            <%= link_to bug.project.name, bug.project %>
+                        </em>
+                    </span>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Bug Title</th>
+                        <th>Bug Description</th>
+                        <th>Bug Type</th>
+                        <th>Bug Deadline</th>
+                        <th>Bug Status</th>
+                        <th>Project Developer's</th>
+                        <th>Project QA's</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <%= bug.title %>
+                            </td>
+                            <td>
+                                <%= bug.description %>
+                            </td>
+                            <td>
+                                <%= bug.bug_type %>
+                            </td>
+                            <td>
+                                <%= bug.deadline %>
+                            </td>
+                            <td>
+                                <%= bug.bug_status %>
+                            </td>
+                            <td>
+                                <ul>
+                                    <% bug.project.users.where(user_type: "Developer").each do |dev| %>
+                                        <li>
+                                            <%= dev.name.capitalize %>
+                                        </li>
+                                    <% end%>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <% bug.project.users.where(user_type: "QA").each do |qa| %>
+                                        <li>
+                                            <%= qa.name.capitalize %>
+                                        </li>
+                                    <% end%>
+                                </ul>
+                            </td>
+                            <% if (Bug.find_by(assign_id: current_user.id) || !is_developer?) %>
+                                <td>
+                                    <%= link_to Project.find(bug.project.id).bugs.count.to_s + " bug's", project_bugs_path(bug.project), :project_id => bug.project.id %>
+                                </td>
+                            <% end %>
+                            <% if is_manager? %>
+                                <td>
+                                    <div>
+                                        <small>
+                                            <%= link_to "Edit this Project", edit_project_path(bug.project) if is_manager? %> 
+                                            <%= link_to ('Delete this project'), bug.project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{bug.project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
+                                        </small>
+                                    </div>
+                                </td>
+                            <% end %>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="seperator">
+                <br>
+            </div>
+        </li>
+        <% end %>
+    </ol>
+<% end %>

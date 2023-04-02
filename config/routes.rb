@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   resources :projects do
     resources :bugs
   end
+
+  get 'user/:id/bugs', to: 'bugs#user', as: 'user_bugs'
   # get '/projects', to: 'projects#index'
   # get '/project/new', to: 'projects#new'
   # post '/projects', to: 'projects#create'

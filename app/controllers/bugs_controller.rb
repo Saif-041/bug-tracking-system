@@ -8,6 +8,7 @@ class BugsController < ApplicationController
     def new
         @bug = @project.bugs.build()
         @bugs = Bug.new
+        @devs = @project.users.where(user_type: 'Developer')
     end
 
     def index
@@ -55,6 +56,13 @@ class BugsController < ApplicationController
         end
     end
 
+    def user
+        @bugs = Bug.where(assign_id: params[:id]) if is_developer?
+        @bugs = Bug.where(created_id: params[:id]) if is_qa?
+        @bugs = Project.find_by(user_id: params[:id]).bugs if is_manager?
+        # @projects = UserProject.where()
+    end
+
     private
 
         def find_bug
@@ -71,6 +79,5 @@ class BugsController < ApplicationController
         def find_project
             @project = Project.find(params[:project_id])
         end
-
 
 end
