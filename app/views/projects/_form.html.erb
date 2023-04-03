@@ -8,8 +8,7 @@
 
   <div class="field">
     <%= f.label :users, "Assign To:" %>
-    <%= f.select :users, options_from_collection_for_select(@user, "id", "name", @project.users.ids), {:include_blank => true},:multiple=> true,:validate=> true,:class=> 'form-control' %> 
-    
+    <%= f.select :users, options_from_collection_for_select(@user, :id, :name, @project.users.ids), {:include_blank => true},:multiple=> true,:validate=> true,:class=> 'form-control' %> 
   </div>
   <br> 
 

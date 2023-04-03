@@ -58,9 +58,21 @@ class ProjectsController < ApplicationController
             @project = Project.find(params[:id])
         end
 
-        def find_users
-            @user = User.select("id,name").where(user_type: 'Developer').or(User.select("id,name").where(user_type: 'QA'))
-        end 
+        def find_users            
+            @dev = User.select("id,name").where(user_type: 'Developer')
+            @dev.each do |developer|
+                developer.name = "Developer - " + developer.name.capitalize
+            end
+
+            @qa = User.select("id,name").where(user_type: 'QA')
+            @qa.each do |q|
+                q.name = "QA - " + q.name.capitalize
+            end
+
+            @user = @dev + @qa
+            
+            byebug
+        end
 
         def project_params            
             p = params.require(:project).permit(:name, {users: []})
