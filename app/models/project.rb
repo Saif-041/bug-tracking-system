@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
-    
+    validates :name, presence: true
+
     has_many :bugs
     # accepts_nested_attributes_for :bugs
     

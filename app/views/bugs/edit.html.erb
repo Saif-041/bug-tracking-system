@@ -9,37 +9,44 @@
 
 <%#= render 'form' %>
 <%#= form_for(@bug, url: "/projects/#{@project.id}/bugs/#{@bug.id}" ) do |f| %>
+
 <%= form_for(@bug, url: project_bug_path(@bug), :method => "put" ) do |f| %>
-    <div class="field">
-        <%= f.label :title %><br />
-        <%= f.text_field :title, autofocus: true %>
-    </div>
-    <br>
-    <div class="field">
-        <%= f.label :description %><br />
-        <%= f.text_area :description %>
-    </div>
-    <br>
-    <div class="field">
-        <%= f.label :deadline, "Set Deadline" %><br />
-        <%= f.date_select :deadline %>
-    </div>
-    <br>
-    <div class="field">
-        <%= f.label :screenshot, "Add Screenshot" %><br />
-        <%= f.file_field :screenshot, multiple: true %>
-    </div>
-    <br>
-    <div class="field bug_type" id="bug_type" data-controller="bug">
-        <%= f.label :bug_type, "Bug Type" %><br />
-        <%= f.select :bug_type, ['Feature','Bug'] %>
-    </div>
-    <br>
+    <% if is_qa? %>
+        <div class="field">
+            <%= f.label :title %><br />
+            <%= f.text_field :title, autofocus: true %>
+        </div>
+        <br>
+        <div class="field">
+            <%= f.label :description %><br />
+            <%= f.text_area :description %>
+        </div>
+        <br>
+        <div class="field">
+            <%= f.label :deadline, "Set Deadline" %><br />
+            <%= f.date_select :deadline %>
+        </div>
+        <br>
+        <div class="field">
+            <%= f.label :screenshot, "Add Screenshot" %><br />
+            <%= f.file_field :screenshot, multiple: true %>
+        </div>
+        <br>
+        <div class="field bug_type" id="bug_type" data-controller="bug">
+            <%= f.label :bug_type, "Bug Type *" %><br />
+            <%= f.select :bug_type, ['Feature','Bug'] %>
+        </div>
+        <br>
+    <% end %>
 
     <% if is_developer? %>
         <div class="field bug_status" id="bug_status" data-controller="bug">
-            <%= f.label :bug_status, "Bug Type" %><br />
-            <%= f.select :bug_status, ['New','Started', 'Completed'] %>
+            <%= f.label :bug_status, "Bug Status *" %><br />
+            <% if @bug.bug_type == "Feature" %>
+                <%= f.select :bug_status, ['New','Started', 'Completed'] %>
+            <% else %>
+                <%= f.select :bug_status, ['New','Started', 'Resolved'] %>
+            <% end %>
         </div>
         <br>
     <% end %>
@@ -57,6 +64,7 @@
     <div class="actions">
         <%= f.submit "Updated Bug" %>
     </div>
+    
 <% end %>
 
 <br>

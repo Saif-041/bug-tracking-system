@@ -11,10 +11,18 @@
 <% else %>
 
 <%#  %>
-<ol>
+<div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
+    <ul>
+        <li class="disabled"> 
+            <%= will_paginate(@projects, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
+        </li>
+    </ul>
+</div>
+
+<ul>
     <% @projects.each do |project| %>
     <li>
-    <div class="container">
+    <div class="container-fluid">
     <div>
         <span class="container">
             <strong>
@@ -74,11 +82,20 @@
     </table>
     </div>
     <div class="seperator">
-        <br height="2px">
+        <hr>
     </div>
 </li>
 <% end %>
-</ol>
+</ul>
+
+    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
+        <ul class=”pagination”>
+            <li class="disabled"> 
+                <%= will_paginate(@projects, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
+            </li>
+        </ul>
+    </div>
+
 <%# below previos view of showing all projects %>
     <%# @projects.each do |project| %>
         <%# <div>

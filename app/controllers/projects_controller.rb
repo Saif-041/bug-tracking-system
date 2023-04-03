@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+    load_and_authorize_resource
+
     before_action :find_project, only: [:show, :edit, :update, :destroy]
     before_action :find_users, only: [:show, :edit, :update, :new]
     # before_action :validate_user, only: [:show, :create, :update, :destroy]
@@ -9,8 +11,8 @@ class ProjectsController < ApplicationController
     end
 
     def index
-        @projects = Project.where(user_id: current_user.id) if is_manager?
-        @projects = current_user.projects if !is_manager?
+        @projects = Project.where(user_id: current_user.id).paginate(page: params[:page], per_page: 4) if is_manager?
+        @projects = current_user.projects.paginate(page: params[:page], per_page: 4) if !is_manager?
     end
 
     def edit

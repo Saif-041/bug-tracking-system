@@ -1,7 +1,7 @@
 
 <%= form_for @project do |f| %>
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name, "Name *" %><br />
     <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
   </div>
   <br>

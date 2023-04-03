@@ -1,7 +1,11 @@
 class ApplicationController < ActionController::Base#Actions
   # around_action :catch_exceptions
-    before_action :authenticate_user!
+    before_action :authenticate_user!, :except => []
     # AUTHENTICATE_USER_EXCEPT_CONTROLLERS = ['main']
+
+    rescue_from CanCan::AccessDenied do |exception|
+      redirect_to root_url, :alert => exception.message
+    end
     
     before_action :configure_permitted_parameters, if: :devise_controller?
 

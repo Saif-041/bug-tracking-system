@@ -1,6 +1,8 @@
 class BugsController < ApplicationController
+    # load_and_authorize_resource
+
     before_action :find_bug, only: [:show, :edit, :update, :destroy]
-    before_action :find_project, only: [:edit, :new, :show, :index]
+    before_action :find_project, only: [:edit, :new, :show, :index, :create]
 
     # before_action :validate_user, only: [:create, :update, :destroy]
     # before_action :remember_page, only: [:new, :index]
@@ -12,17 +14,17 @@ class BugsController < ApplicationController
     end
 
     def index
-        @bugs = Bug.where(created_id: current_user.id) if is_qa?
-        @bugs = Bug.where(assign_id: current_user.id) if is_developer?
-        @bugs = @project.bugs if is_manager?
+        @bugs = Bug.where(created_id: current_user.id).paginate(page: params[:page], per_page: 5) if is_qa?
+        @bugs = Bug.where(assign_id: current_user.id).paginate(page: params[:page], per_page: 5) if is_developer?
+        @bugs = @project.bugs.paginate(page: params[:page], per_page: 5) if is_manager?
     end
 
     def edit
+        # @devs = 
     end
 
 
     def create
-        @project = Project.find(params[:project_id])
         @bug = @project.bugs.build(bug_params)
         @bug.created_id = current_user.id
         if @bug.save
@@ -39,6 +41,7 @@ class BugsController < ApplicationController
     end
 
     def update
+        byebug
         if @bug.update(bug_params)
             flash[:success] = "Bug updated successfully."
             redirect_to projects_path
@@ -57,10 +60,10 @@ class BugsController < ApplicationController
     end
 
     def user
-        @bugs = Bug.where(assign_id: params[:id]) if is_developer?
-        @bugs = Bug.where(created_id: params[:id]) if is_qa?
-        @bugs = Project.find_by(user_id: params[:id]).bugs if is_manager?
-        # @projects = UserProject.where()
+        @bugs = Bug.where(assign_id: params[:id]).paginate(page: params[:page], per_page: 5) if is_developer?
+        @bugs = Bug.where(created_id: params[:id]).paginate(page: params[:page], per_page: 5) if is_qa?
+        # byebug
+        @bugs = Project.find_by(user_id: params[:id]).bugs.paginate(page: params[:page], per_page: 5) if is_manager?
     end
 
     private
@@ -70,9 +73,9 @@ class BugsController < ApplicationController
         end
 
         def bug_params
-            # params.require(:bug).permit(:title, :description, :deadline, :bug_type, :assign_id)
+            # p = params.require(:bug).permit(:title, :description, :deadline, {screenshot: []}, :bug_type, :assign_id)
             p = params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id)
-            p = params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id, :bug_status) if is_developer?
+            p = params.require(:bug).permit(:bug_status) if is_developer?
             p
         end
 

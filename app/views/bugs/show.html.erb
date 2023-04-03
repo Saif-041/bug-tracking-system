@@ -7,7 +7,7 @@
             Bug Title: 
         </strong>
         <em>
-            <%= @bug.title %>
+            <%= @bug.title.capitalize %>
         </em>
     </span>
 </div>
@@ -51,6 +51,7 @@
         </em>
     </span>
 </div>
+
 <% if !is_developer? %>
     <div>
         <span>
@@ -65,6 +66,7 @@
         </span>
     </div>
 <% end %>
+
 <div>
     <span>
         <strong>
@@ -75,6 +77,7 @@
         </em>
     </span>
 </div>
+
 <% if !is_qa? %>
     <div>
         <span>

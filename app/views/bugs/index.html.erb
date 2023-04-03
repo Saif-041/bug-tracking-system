@@ -3,107 +3,126 @@
     Project Title: <%= link_to @project.name, @project %> 
 </div>
 
-<ol>
-<hr/><br>
-<% @bugs.each do |bug| %>
-    <li>
-    <div>
-        <span>
-            <strong>
-                Bug Title: 
-            </strong>
-            <span>
-                <%= bug.title %>
-            </span>
-        </span>
+    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero">
+        <ul class=”pagination”>
+            <li class="disabled"> 
+                <%= will_paginate(@project.bugs, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
+            </li>
+        </ul>
     </div>
-    <br>
-    <div>
-        <span>
-            <strong>
-                Description: 
-            </strong>
-            <span>
-                <%= bug.description %>
-            </span>
-        </span>
-    </div>
-    <br>
-    <div>
-        <span>
-            <strong>
-                Deadline: 
-            </strong>
-            <span>
-                <%= bug.deadline %>
-            </span>
-        </span>
-    </div>
-    <%# <br>
-    <div>
-        <span>
-            <strong>
-                Screen Shot: 
-            </strong>
-            <div> %>
-                <%#= image_tag bug.screenshot.url if bug.screenshot? %>
-            <%# </div>
-        </span>
-    </div> %>
-    <br>
-    <div>
-        <span>
-            <strong>
-                Bug Type: 
-            </strong>
-            <span>
-                <%= bug.bug_type %>
-            </span>
-        </span>
-    </div>
-    <% if !is_developer? %>
-        <br>
-        <div>
-            <span>
-                <strong>
-                    Assigned To: 
-                </strong>
-                <span>
-                    <%= User.find_by_id(bug.assign_id).name.capitalize %>
-                </span>
-            </span>
-        </div>
-    <% end %>
-    <br>
-    <div>
-        <span>
-            <strong>
-                Status: 
-            </strong>
-            <span>
-                <%= bug.bug_status %>
-            </span>
-        </span>
-    </div>
-    <% if !is_qa? %>
-        <br>
-        <div>
-            <span>
-                <strong>
-                    Created By: 
-                </strong>
-                <span>
-                    <%= User.find_by_id(bug.created_id).name.capitalize %>
-                </span>
-            </span>
-        </div>
-    <% end %>
 
-    <div align="right">
-        <%= link_to "Edit this Bug", "/projects/#{@project.id}/bugs/#{bug.id}/edit" if !is_manager? %>
-        <%= link_to ('Remove this Bug'), "/projects/#{@project.id}/bugs/#{bug.id}", data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" if is_qa? %>
-    </div>
-<hr/>
-</li>
-<% end %>
+<ol>
+    <hr/>
+    <br>
+
+    <% @project.bugs.each do |bug| %>
+        <li>
+            <div>
+                <span>
+                    <strong>
+                        Bug Title: 
+                    </strong>
+                    <span>
+                        <%= bug.title %>
+                    </span>
+                </span>
+            </div>
+            <br>
+            <div>
+                <span>
+                    <strong>
+                        Description: 
+                    </strong>
+                    <span>
+                        <%= bug.description %>
+                    </span>
+                </span>
+            </div>
+            <br>
+            <div>
+                <span>
+                    <strong>
+                        Deadline: 
+                    </strong>
+                    <span>
+                        <%= bug.deadline %>
+                    </span>
+                </span>
+            </div>
+            <%# <br>
+            <div>
+                <span>
+                    <strong>
+                        Screen Shot: 
+                    </strong>
+                    <div> %>
+                        <%#= image_tag bug.screenshot.url if bug.screenshot? %>
+                    <%# </div>
+                </span>
+            </div> %>
+            <br>
+            <div>
+                <span>
+                    <strong>
+                        Bug Type: 
+                    </strong>
+                    <span>
+                        <%= bug.bug_type %>
+                    </span>
+                </span>
+            </div>
+            <% if !is_developer? %>
+                <br>
+                <div>
+                    <span>
+                        <strong>
+                            Assigned To: 
+                        </strong>
+                        <span>
+                            <%= User.find_by_id(bug.assign_id).name.capitalize %>
+                        </span>
+                    </span>
+                </div>
+            <% end %>
+            <br>
+            <div>
+                <span>
+                    <strong>
+                        Status: 
+                    </strong>
+                    <span>
+                        <%= bug.bug_status %>
+                    </span>
+                </span>
+            </div>
+            <% if !is_qa? %>
+                <br>
+                <div>
+                    <span>
+                        <strong>
+                            Created By: 
+                        </strong>
+                        <span>
+                            <%= User.find_by_id(bug.created_id).name.capitalize %>
+                        </span>
+                    </span>
+                </div>
+            <% end %>
+
+            <div align="right">
+                <%= link_to "Edit this Bug", "/projects/#{@project.id}/bugs/#{bug.id}/edit" if !is_manager? %>
+                <%= link_to ('Remove this Bug'), "/projects/#{@project.id}/bugs/#{bug.id}", data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" if is_qa? %>
+            </div>
+        <hr/>
+    </li>
+    <% end %>
 </ol>
+
+
+<div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero">
+    <ul class=”pagination”>
+        <li class="disabled"> 
+            <%= will_paginate(@project.bugs, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
+        </li>
+    </ul>
+</div>

@@ -13,8 +13,6 @@
         No Bug <%= "reported" if !is_qa? %> yet!
     </p>
 <% else %>
-
-    <%#  %>
     <ol>
         <% @bugs.each do |bug| %>
         <li>
@@ -31,17 +29,17 @@
                 </div>
                 <table class="table table-hover">
                     <thead>
-                    <tr>
-                        <th>Bug Title</th>
-                        <th>Bug Description</th>
-                        <th>Bug Type</th>
-                        <th>Bug Deadline</th>
-                        <th>Bug Status</th>
-                        <th>Project Developer's</th>
-                        <th>Project QA's</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>Bug Title</th>
+                            <th>Bug Description</th>
+                            <th>Bug Type</th>
+                            <th>Bug Deadline</th>
+                            <th>Bug Status</th>
+                            <th>Project Developer's</th>
+                            <th>Project QA's</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -78,11 +76,13 @@
                                     <% end%>
                                 </ul>
                             </td>
+
                             <% if (Bug.find_by(assign_id: current_user.id) || !is_developer?) %>
                                 <td>
                                     <%= link_to Project.find(bug.project.id).bugs.count.to_s + " bug's", project_bugs_path(bug.project), :project_id => bug.project.id %>
                                 </td>
                             <% end %>
+
                             <% if is_manager? %>
                                 <td>
                                     <div>
@@ -93,13 +93,16 @@
                                     </div>
                                 </td>
                             <% end %>
+
                         </tr>
                     </tbody>
                 </table>
             </div>
+
             <div class="seperator">
                 <br>
             </div>
+                        
         </li>
         <% end %>
     </ol>
