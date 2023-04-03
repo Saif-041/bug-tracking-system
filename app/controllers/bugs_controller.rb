@@ -1,22 +1,22 @@
 class BugsController < ApplicationController
+    before_action :authenticate_user!
+
     # load_and_authorize_resource
 
     before_action :find_bug, only: [:show, :edit, :update, :destroy]
     before_action :find_project, only: [:edit, :new, :show, :index, :create]
 
-    # before_action :validate_user, only: [:create, :update, :destroy]
-    # before_action :remember_page, only: [:new, :index]
-
     def new
         @bug = @project.bugs.build()
-        @bugs = Bug.new
+        # @bugs = Bug.new
         @devs = @project.users.where(user_type: 'Developer')
     end
 
     def index
-        @bugs = Bug.where(created_id: current_user.id).paginate(page: params[:page], per_page: 5) if is_qa?
-        @bugs = Bug.where(assign_id: current_user.id).paginate(page: params[:page], per_page: 5) if is_developer?
-        @bugs = @project.bugs.paginate(page: params[:page], per_page: 5) if is_manager?
+        @bugs = Bug.where(created_id: current_user.id) if is_qa?
+        @bugs = Bug.where(assign_id: current_user.id) if is_developer?
+        @bugs = @project.bugs if is_manager?
+        @bugs = @bugs.paginate(page: params[:page], per_page: 4)
     end
 
     def edit
@@ -27,11 +27,15 @@ class BugsController < ApplicationController
     def create
         @bug = @project.bugs.build(bug_params)
         @bug.created_id = current_user.id
+        # if !@bug.screenshot?
+        #     flash[:danger] = "Screenshot file not supported (only png file allowed)."
+        #     render 'new', status: 300
+        # els
         if @bug.save
             flash[:success] = "Bug created successfully."
-            redirect_to project_bugs_path
+            redirect_to @bug.project
         else
-            flash[:danger] = "Bug was not created."
+            flash[:danger] = "Bug was not created. Bug Title should be unique."
             render 'new', status: 300
         end
     end
@@ -62,7 +66,6 @@ class BugsController < ApplicationController
     def user
         @bugs = Bug.where(assign_id: params[:id]).paginate(page: params[:page], per_page: 5) if is_developer?
         @bugs = Bug.where(created_id: params[:id]).paginate(page: params[:page], per_page: 5) if is_qa?
-        # byebug
         @bugs = Project.find_by(user_id: params[:id]).bugs.paginate(page: params[:page], per_page: 5) if is_manager?
     end
 

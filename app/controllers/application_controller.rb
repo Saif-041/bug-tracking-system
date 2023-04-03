@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base#Actions
   # around_action :catch_exceptions
-    before_action :authenticate_user!, :except => []
+    # before_action :authenticate_user!
     # AUTHENTICATE_USER_EXCEPT_CONTROLLERS = ['main']
 
     rescue_from CanCan::AccessDenied do |exception|

@@ -1,10 +1,3 @@
-<br>
-<div align="center" class= "col-md-8">
-    <strong>
-        Create Bug | 
-    </strong> 
-        Project: <u> <%= @bug.project.name.capitalize %> </u>
-</div>
-<br>
+<%= render 'shared/page_title', title: "Create Bug | Project: #{@project.name.capitalize}" %>
 
 <%= render 'form' %>

@@ -1,5 +1,4 @@
-
-<h1>Bug Details | Project Title: <%= @project.name.capitalize %> </h1>
+<%= render 'shared/page_title', title: "Bug Details | Project Title: #{@project.name.capitalize}" %>
 
 <div>
     <span>
@@ -37,7 +36,7 @@
             Screen Shot: 
         </strong>
         <div>
-            <%= image_tag @bug.screenshot.url %>
+            <%= image_tag @bug.screenshot.url  if @bug.screenshot? %>
         </div>
     </span>
 </div>

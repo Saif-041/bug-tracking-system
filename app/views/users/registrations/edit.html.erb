@@ -2,7 +2,7 @@
 <div class="container">
   <div class="col-md-5 offset-md-1 mb-3">
 
-    <h2>Edit Profile<%#= resource_name.to_s.humanize %></h2>
+    <%= render 'shared/page_title', title: "Edit Profile" %>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "users/shared/error_messages", resource: resource %>

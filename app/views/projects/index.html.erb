@@ -1,7 +1,5 @@
-<h2 align="center"> Showing All Projects </h2>
-<div class="container-fluid">
-    <hr>
-</div>
+<%= render 'shared/page_title', title: "Showing All Projects" %>
+
 <br>
 
 <% if @projects.count == 0 %>
@@ -10,7 +8,6 @@
     </p>
 <% else %>
 
-<%#  %>
 <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
     <ul>
         <li class="disabled"> 
@@ -21,133 +18,80 @@
 
 <ul>
     <% @projects.each do |project| %>
-    <li>
-    <div class="container-fluid">
-    <div>
-        <span class="container">
-            <strong>
-                Project Name:
-            </strong>
-            <em>
-                <%= link_to project.name, project %>
-            </em>
-        </span>
-    </div>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Project Developer's</th>
-            <th>Project QA's</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <ul>
-                        <% project.users.where(user_type: "Developer").each do |dev| %>
-                            <li>
-                                <%= dev.name.capitalize %>
-                            </li>
-                        <% end%>
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        <% project.users.where(user_type: "QA").each do |qa| %>
-                            <li>
-                                <%= qa.name.capitalize %>
-                            </li>
-                        <% end%>
-                    </ul>
-                </td>
-                <% if (project.bugs.count != 0) && (project.bugs.find_by(assign_id: current_user.id) || !is_developer?) && (project.bugs.find_by(created_id: current_user.id) || !is_qa?) %>
-                    <td>
-                        <%= link_to project.bugs.count.to_s + " bugs", project_bugs_path(project), :project_id => project.id %>
-                    </td>
-                <% end %>
-                <% if is_manager? %>
-                    <td>
-                        <div>
-                            <small>
-                                <%= link_to "Edit this Project", edit_project_path(project) if is_manager? %> 
-                                <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
-                            </small>
-                        </div>
-                    </td>
-                <% end %>
-        </tr>
-        </tbody>
-    </table>
-    </div>
-    <div class="seperator">
-        <hr>
-    </div>
-</li>
-<% end %>
+        <li>
+            <div class="container-fluid">
+                <div>
+                    <span class="container">
+                        <strong>
+                            Project Name:
+                        </strong>
+                        <em>
+                            <%= link_to project.name, project %>
+                        </em>
+                    </span>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Project Developer's</th>
+                            <th>Project QA's</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <% project.users.where(user_type: "Developer").each do |dev| %>
+                                        <li>
+                                            <%= dev.name.capitalize %>
+                                        </li>
+                                    <% end%>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <% project.users.where(user_type: "QA").each do |qa| %>
+                                        <li>
+                                            <%= qa.name.capitalize %>
+                                        </li>
+                                    <% end%>
+                                </ul>
+                            </td>
+                            <% if (project.bugs.count != 0) && (project.bugs.find_by(assign_id: current_user.id) || !is_developer?) && (project.bugs.find_by(created_id: current_user.id) || !is_qa?) %>
+                                <td>
+                                    <%= link_to project.bugs.count.to_s + " bugs", project_bugs_path(project), :project_id => project.id %>
+                                </td>
+                            <% end %>
+                            <% if is_manager? %>
+                                <td>
+                                    <div>
+                                        <small>
+                                            <%= link_to "Edit this Project", edit_project_path(project) if is_manager? %> 
+                                            <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
+                                        </small>
+                                    </div>
+                                </td>
+                            <% end %>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="seperator">
+                <hr>
+            </div>
+        </li>
+    <% end %>
 </ul>
 
-    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
-        <ul class=”pagination”>
-            <li class="disabled"> 
-                <%= will_paginate(@projects, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
-            </li>
-        </ul>
-    </div>
+<div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
+    <ul class=”pagination”>
+        <li class="disabled"> 
+            <%= will_paginate(@projects, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
+        </li>
+    </ul>
+</div>
 
-<%# below previos view of showing all projects %>
-    <%# @projects.each do |project| %>
-        <%# <div>
-            <span>
-                <em>
-                    Project Name: 
-                </em>
-                <strong> %>
-                    <%#= link_to project.name, project %>
-                <%# </strong>
-            </span>
-        </div>
-        <div>
-            <span>
-                <em>
-                    Project Developers: 
-                </em>
-                <strong>
-                    <ul> %>
-                    <%# project.users.where(user_type: "Developer").each do |dev| %>
-                        <%# <li> %>
-                            <%#= dev.name.capitalize %>
-                        <%# </li> %>
-                    <%# end%>
-                    <%# </ul>
-                </strong>
-            </span>
-        </div>
-        <div>
-            <span>
-                <em>
-                    Project QA's: 
-                </em>
-                <ul> %>
-                    <%# project.users.where(user_type: "QA").each do |qa| %>
-                        <%# <li> %>
-                            <%#= qa.name.capitalize %>
-                        <%# </li> %>
-                    <%# end%>
-                <%# </ul>
-            </span>
-        </div> %>
-        <%# if project.bugs.count != 0 && (project.bugs.find_by(assign_id: current_user.id) || !is_developer?) %>
-            <%#= link_to project.bugs.count.to_s + " bugs", project_bugs_path(project), :project_id => project.id %>
-            <%# <br> %>
-        <%# end %>
-        <%#= link_to "Show this Project", project %>
-        <%#= link_to "Edit this Project", edit_project_path(project) if is_manager? %> 
-        <%#= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
-
-        <%# <div class="container-fluid">
-            <hr/>
-        </div> %>
-    <%# end %>
 <% end %>

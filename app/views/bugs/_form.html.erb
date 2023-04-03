@@ -19,8 +19,8 @@
     <br>
 
     <div class="field">
-        <%= f.label :screenshot, "Add Screenshot (optional)" %><br />
-        <%= f.file_field :screenshot, multiple: true %>
+        <%= f.label :screenshot, "Add Screenshot (only png gif)" %><br />
+        <%= f.file_field :screenshot %>
     </div>
     <br>
 
@@ -38,7 +38,7 @@
         <br>
     <% end %>
     
-    <% if @bug.new_record? %>
+    <% if @bug.new_record? && !@devs.nil?%>
         <div class="field">
             <%= f.label :assign_id, "Assign To:" %><br />
             <%= f.collection_select :assign_id, @devs, :id, :name do |cs| %>
@@ -47,7 +47,7 @@
         </div>
         <br>
     <% end %>
-    
+    <br>
     <div class="actions">
         <%= f.submit(@bug.new_record? ? "Create Bug" : "Update Bug") %>
     </div>

@@ -1,22 +1,20 @@
-<h3 align="center">Project Details</h3>
-<div class="container-fluid">
-    <hr/>
-</div>
+<%= render 'shared/page_title', title: "Project Details" %>
+
 <br>
 
-<%#  %>
 <div class="container">
   <h2>
     <span>
-            <strong>
-                Project Name: 
-            </strong>
-            <em>
-                <%= @project.name %>
-            </em>
-        </span>
+        <strong>
+            Project Name: 
+        </strong>
+        <em>
+            <%= @project.name %>
+        </em>
+    </span>
   </h2>
   <br>
+
   <table class="table table-hover">
     <thead>
       <tr>
@@ -67,49 +65,8 @@
   </table>
 </div>
 
-<%# below previous view of project details %>
-<%# <div>
-        <span>
-            <strong>
-                Project Name: 
-            </strong>
-            <em> %>
-                <%#= @project.name %>
-            <%# </em>
-        </span>
-    </div>
-    <div>
-        <span>
-            <strong>
-                Project Developers: 
-            </strong>
-            <ul> %>
-                <%# @project.users.where(user_type: "Developer").each do |dev| %>
-                    <%# <li> %>
-                        <%#= dev.name.capitalize %>
-                    <%# </li> %>
-                <%# end%>
-            <%# </ul>
-        </span>
-    </div>
-    <div>
-        <span>
-            <strong>
-                Project QA's: 
-            </strong>
-            <ul> %>
-                <%# @project.users.where(user_type: "QA").each do |qa| %>
-                    <%# <li> %>
-                        <%#= qa.name.capitalize %>
-                    <%# </li> %>
-                <%# end%>
-            <%# </ul>
-        </span>
-    </div> %>
+<br>
 
-    <%#= link_to "Edit this Project", edit_project_path(@project) if is_manager? %>
-    <%#= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{@project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
-    
-    <%#= link_to "Report Bug", new_project_bug_path(@project.bugs, :project_id => @project.id) if is_qa? %>
-    <br>
-    <%= link_to "Back to Projects", projects_path %>
+<%= link_to "Back to Projects", projects_path %>
+
+<br>

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="col-md-5 offset-md-1 mb-3">
 
-    <h2>Sign up</h2>
+    <%= render 'shared/page_title', title: "Sign Up" %>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= render "users/shared/error_messages", resource: resource %>

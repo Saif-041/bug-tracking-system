@@ -1,21 +1,17 @@
-<div align="center">
-    <strong>Showing All Bug</strong> | 
-    Project Title: <%= link_to @project.name, @project %> 
-</div>
+<%= render 'shared/page_title', title: "Showing All Bug | Project Title: #{@project.name} " %>
 
-    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero">
+<ul>
+    <hr/>
+    <br>
+    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
         <ul class=”pagination”>
             <li class="disabled"> 
-                <%= will_paginate(@project.bugs, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
+                <%= will_paginate(@bug, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
             </li>
         </ul>
     </div>
 
-<ol>
-    <hr/>
-    <br>
-
-    <% @project.bugs.each do |bug| %>
+    <% @bugs.each do |bug| %>
         <li>
             <div>
                 <span>
@@ -49,17 +45,17 @@
                     </span>
                 </span>
             </div>
-            <%# <br>
+            <br>
             <div>
                 <span>
                     <strong>
                         Screen Shot: 
                     </strong>
-                    <div> %>
-                        <%#= image_tag bug.screenshot.url if bug.screenshot? %>
-                    <%# </div>
+                    <div>
+                        <%= image_tag bug.screenshot.url if bug.screenshot? %>
+                    </div>
                 </span>
-            </div> %>
+            </div>
             <br>
             <div>
                 <span>
@@ -71,7 +67,7 @@
                     </span>
                 </span>
             </div>
-            <% if !is_developer? %>
+            <% if !is_developer? && !bug.assign_id.nil? %>
                 <br>
                 <div>
                     <span>
@@ -116,13 +112,13 @@
         <hr/>
     </li>
     <% end %>
-</ol>
 
+    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero">
+        <ul class=”pagination”>
+            <li class="disabled"> 
+                <%= will_paginate(@bugs, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
+            </li>
+        </ul>
+    </div>
 
-<div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero">
-    <ul class=”pagination”>
-        <li class="disabled"> 
-            <%= will_paginate(@project.bugs, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font" ) %>
-        </li>
-    </ul>
-</div>
+</ul>

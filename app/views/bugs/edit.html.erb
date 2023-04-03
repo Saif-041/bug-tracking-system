@@ -1,13 +1,5 @@
-<br>
-<div align="center" class= "col-md-8">
-    <strong>
-        Edit Bug | 
-    </strong> 
-        Project: <u> <%= @project.name.capitalize %> </u>
-</div>
-<br>
+<%= render 'shared/page_title', title: "Edit Bug | Project: #{@project.name.capitalize}" %>
 
-<%#= render 'form' %>
 <%#= form_for(@bug, url: "/projects/#{@project.id}/bugs/#{@bug.id}" ) do |f| %>
 
 <%= form_for(@bug, url: project_bug_path(@bug), :method => "put" ) do |f| %>
@@ -29,7 +21,7 @@
         <br>
         <div class="field">
             <%= f.label :screenshot, "Add Screenshot" %><br />
-            <%= f.file_field :screenshot, multiple: true %>
+            <%= f.file_field :screenshot %>
         </div>
         <br>
         <div class="field bug_type" id="bug_type" data-controller="bug">
