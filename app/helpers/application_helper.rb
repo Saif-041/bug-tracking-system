@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
     # def link_to_previous_page(link_title)
     #     link_to_if(

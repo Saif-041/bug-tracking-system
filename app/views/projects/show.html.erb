@@ -20,7 +20,7 @@
       <tr>
         <th>Project Developer's</th>
         <th>Project QA's</th>
-        <% if !is_developer? %>
+        <% if !developer? %>
             <th>Actions</th>
         <% end %>
       </tr>
@@ -45,22 +45,22 @@
                     <% end%>
                 </ul>
             </td>
-            <% if !is_developer? %>
+            <% if !developer? %>
             <td>
                 <div>
                     <span>
-                        <% if (@project.bugs.count != 0) && (@project.bugs.find_by(assign_id: current_user.id) || !is_developer?) && (@project.bugs.find_by(created_id: current_user.id) || !is_qa?) %>
+                        <% if (@project.bugs.count != 0) && (@project.bugs.find_by(assign_id: current_user.id) || !developer?) && (@project.bugs.find_by(created_id: current_user.id) || !qa?) %>
                             <%= link_to pluralize(@project.bugs.count, " bug"), project_bugs_path(@project), :project_id => @project.id %>
                         <% end %>
                     </span>
                     <span>
-                        <%= link_to "Edit this Project", edit_project_path(@project) if is_manager? %>
+                        <%= link_to "Edit this Project", edit_project_path(@project) if manager? %>
                     </span>
                     <span>
-                        <%= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{@project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
+                        <%= link_to ('Delete this project'), @project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{@project.name.capitalize}' project?" }, class: "btn btn-xs" if manager? %>
                     </span>
                     <span>
-                        <%= link_to "Report Bug", new_project_bug_path("", :project_id => @project.id) if is_qa? %>
+                        <%= link_to "Report Bug", new_project_bug_path("", :project_id => @project.id) if qa? %>
                     </span>
                 </div>
             </td>

@@ -30,7 +30,7 @@
     </div>
     <br>
 
-    <% if is_developer? %>
+    <% if developer? %>
         <div class="field bug_status" id="bug_status" data-controller="bug">
             <%= f.label :bug_status, "Bug Type" %><br />
             <%= f.select :bug_status, ['New','Started', 'Completed'] %>

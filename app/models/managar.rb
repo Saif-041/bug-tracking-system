@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Manager < ApplicationRecord
+class Managar < User
   has_one :user
   has_many :projects
 end

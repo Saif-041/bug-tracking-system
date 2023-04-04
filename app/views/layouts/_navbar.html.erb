@@ -14,7 +14,7 @@
             <%= link_to "Project", projects_path %>
             <%# <a class="nav-link" href="#">Project</a> %>
           </li>
-          <% if is_manager? %>
+          <% if manager? %>
             <li class="nav-item">
               <%= link_to "New Project", new_project_path %>
             </li>

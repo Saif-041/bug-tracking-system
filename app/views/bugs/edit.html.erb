@@ -3,7 +3,7 @@
 <%#= form_for(@bug, url: "/projects/#{@project.id}/bugs/#{@bug.id}" ) do |f| %>
 
 <%= form_for(@bug, url: project_bug_path(@bug), :method => "put" ) do |f| %>
-    <% if is_qa? %>
+    <% if qa? %>
         <div class="field">
             <%= f.label :title %><br />
             <%= f.text_field :title, autofocus: true %>
@@ -31,7 +31,7 @@
         <br>
     <% end %>
 
-    <% if is_developer? %>
+    <% if developer? %>
         <div class="field bug_status" id="bug_status" data-controller="bug">
             <%= f.label :bug_status, "Bug Status *" %><br />
             <% if @bug.bug_type == "Feature" %>

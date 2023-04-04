@@ -4,7 +4,7 @@
 
 <% if @projects.count == 0 %>
     <p>
-        No Project <%= "assigned" if !is_manager? %> yet!
+        No Project <%= "assigned" if !manager? %> yet!
     </p>
 <% else %>
 
@@ -59,17 +59,17 @@
                                     <% end%>
                                 </ul>
                             </td>
-                            <% if (project.bugs.count != 0) && (project.bugs.find_by(assign_id: current_user.id) || !is_developer?) && (project.bugs.find_by(created_id: current_user.id) || !is_qa?) %>
+                            <% if (project.bugs.count != 0) && (project.bugs.find_by(assign_id: current_user.id) || !developer?) && (project.bugs.find_by(created_id: current_user.id) || !qa?) %>
                                 <td>
                                     <%= link_to pluralize(project.bugs.count, " bug"), project_bugs_path(project), :project_id => project.id %>
                                 </td>
                             <% end %>
-                            <% if is_manager? %>
+                            <% if manager? %>
                                 <td>
                                     <div>
                                         <small>
-                                            <%= link_to "Edit this Project", edit_project_path(project) if is_manager? %> 
-                                            <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
+                                            <%= link_to "Edit this Project", edit_project_path(project) if manager? %> 
+                                            <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{project.name.capitalize}' project?" }, class: "btn btn-xs" if manager? %>
                                         </small>
                                     </div>
                                 </td>

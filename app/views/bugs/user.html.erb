@@ -4,7 +4,7 @@
 
 <% if @bugs.count == 0 %>
     <p>
-        No Bug <%= "reported" if !is_qa? %> yet!
+        No Bug <%= "reported" if !qa? %> yet!
     </p>
 <% else %>
     <ul>
@@ -74,7 +74,7 @@
                                 </ul>
                             </td>
 
-                            <% if (Bug.find_by(assign_id: current_user.id) || !is_developer?) %>
+                            <% if (Bug.find_by(assign_id: current_user.id) || !developer?) %>
                                 <td>
                                     <%= link_to pluralize(Project.find(bug.project.id).bugs.count, "bug and feature"), project_bugs_path(bug.project), :project_id => bug.project.id %>      
                                 </td>
@@ -84,8 +84,8 @@
                                 <td>
                                     <div>
                                         <small>
-                                            <%= link_to "Edit this Project", edit_project_path(bug.project) if is_manager? %> 
-                                            <%= link_to ('Delete this project'), bug.project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{bug.project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
+                                            <%= link_to "Edit this Project", edit_project_path(bug.project) if manager? %> 
+                                            <%= link_to ('Delete this project'), bug.project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{bug.project.name.capitalize}' project?" }, class: "btn btn-xs" if manager? %>
                                         </small>
                                     </div>
                                 </td>

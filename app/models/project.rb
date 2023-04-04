@@ -2,6 +2,7 @@
 
 class Project < ApplicationRecord
   validates :name, presence: true
+  belongs_to :managar
 
   has_many :bugs
   # accepts_nested_attributes_for :bugs

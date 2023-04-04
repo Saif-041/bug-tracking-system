@@ -4,7 +4,7 @@
 
 <% if @features.count == 0 %>
     <p>
-        No Feature <%= "created" if !is_qa? %> yet!
+        No Feature <%= "created" if !qa? %> yet!
     </p>
 <% else %>
     <ul>
@@ -74,19 +74,19 @@
                                 </ul>
                             </td>
 
-                            <% if (Bug.find_by(assign_id: current_user.id) || !is_developer?) %>
+                            <% if (Bug.find_by(assign_id: current_user.id) || !developer?) %>
                                 <td>
                                     <%= link_to pluralize(Project.find(feature.project.id).bugs.count, "bug and feature"), project_bugs_path(feature.project), :project_id => feature.project.id %>
                                     <%#= link_to Project.find(feature.project.id).bugs.count.to_s + " feature's", project_bugs_path(feature.project), :project_id => feature.project.id %>
                                 </td>
                             <% end %>
 
-                            <% if false && is_manager? %>
+                            <% if false && manager? %>
                                 <td>
                                     <div>
                                         <small>
-                                            <%= link_to "Edit this Project", edit_project_path(feature.project) if is_manager? %> 
-                                            <%= link_to ('Delete this project'), feature.project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{feature.project.name.capitalize}' project?" }, class: "btn btn-xs" if is_manager? %>
+                                            <%= link_to "Edit this Project", edit_project_path(feature.project) if manager? %> 
+                                            <%= link_to ('Delete this project'), feature.project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{feature.project.name.capitalize}' project?" }, class: "btn btn-xs" if manager? %>
                                         </small>
                                     </div>
                                 </td>
