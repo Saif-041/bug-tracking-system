@@ -30,7 +30,7 @@
                         Description: 
                     </strong>
                     <span>
-                        <%= bug.description %>
+                        <%= truncate(bug.description, length: 150) %>
                     </span>
                 </span>
             </div>

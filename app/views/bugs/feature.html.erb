@@ -44,7 +44,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <%= feature.description %>
+                                <%= truncate(feature.description, length: 150) %>
                             </td>
                             <td>
                                 <%= feature.deadline %>

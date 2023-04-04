@@ -21,21 +21,20 @@
                 <div>
                     <span class="container">
                         <strong>
-                            Project Name:
+                            Bug Title:
                         </strong>
                         <em>
-                            <%= link_to bug.project.name, bug.project %>
+                            <%= link_to bug.title.capitalize, project_bug_path(bug) %>
                         </em>
                     </span>
                 </div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Bug Title</th>
-                            <th>Bug Description</th>
-                            <th>Bug Type</th>
-                            <th>Bug Deadline</th>
-                            <th>Bug Status</th>
+                            <th>Description</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
+                            <th>Project Name</th>
                             <th>Project Developer's</th>
                             <th>Project QA's</th>
                             <th></th>
@@ -45,19 +44,16 @@
                     <tbody>
                         <tr>
                             <td>
-                                <%= bug.title %>
-                            </td>
-                            <td>
-                                <%= bug.description %>
-                            </td>
-                            <td>
-                                <%= bug.bug_type %>
+                                <%= truncate(bug.description, length: 150) %>
                             </td>
                             <td>
                                 <%= bug.deadline %>
                             </td>
                             <td>
                                 <%= bug.bug_status %>
+                            </td>
+                            <td>
+                                <%= bug.project.name.capitalize %>
                             </td>
                             <td>
                                 <ul>
@@ -80,8 +76,7 @@
 
                             <% if (Bug.find_by(assign_id: current_user.id) || !is_developer?) %>
                                 <td>
-                                
-                                    <%= link_to pluralize(Project.find(bug.project.id).bugs.count, "bug"), project_bugs_path(bug.project), :project_id => bug.project.id %>
+                                    <%= link_to pluralize(Project.find(bug.project.id).bugs.count, "bug and feature"), project_bugs_path(bug.project), :project_id => bug.project.id %>      
                                 </td>
                             <% end %>
 

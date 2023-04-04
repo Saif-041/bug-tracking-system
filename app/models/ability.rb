@@ -7,11 +7,11 @@ class Ability
       if user.manager?
         can :manage, Project
         # can [:index, :show, :user], Bug
-      elsif user.qa?
-        can [:index, :show], Project
+      # elsif user.qa?
+        # can [:index, :show], Project
         # can [:manage, :user], Bug
       else
-        can [:index, :show], Project
+        can :index, Project
         # can [:index, :show, :user, :edit, :update], Bug
       end
     # Define abilities for the user here. For example:

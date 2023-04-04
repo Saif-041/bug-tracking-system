@@ -1,14 +1,14 @@
 class BugsController < ApplicationController
-    before_action :authenticate_user!
-
-    # load_and_authorize_resource
+    before_action :authenticate_user!    
+    before_action :authenticate_qa, only: [:new, :destroy]
+    before_action :authenticate_manager, only: [:edit, :update]
 
     before_action :find_bug, only: [:show, :edit, :update, :destroy]
     before_action :find_project, only: [:edit, :new, :show, :index, :create]
 
     def new
         @bug = @project.bugs.build()
-        @devs = @project.users.where(user_type: 'Developer')
+        @devs = @project.users.where(user_type: 'Developer') # used in view
     end
 
     def index
@@ -91,6 +91,20 @@ class BugsController < ApplicationController
 
         def find_project
             @project = Project.find(params[:project_id])
+        end
+
+        def authenticate_qa
+            if !is_qa?
+                flash[:warning] = "You are not authorized to access this page."
+                redirect_to project_bugs_path
+            end
+        end
+
+        def authenticate_manager
+            if is_manager?
+                flash[:warning] = "You are not authorized to access this page."
+                redirect_to project_bugs_path
+            end
         end
 
 end

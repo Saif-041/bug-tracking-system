@@ -17,7 +17,7 @@
                 Description: 
             </em>
             <h6>
-                <%= @bug.description %>
+                <%= truncate(bug.description, length: 150) %>
             </h6>
         </span>
     </div>
