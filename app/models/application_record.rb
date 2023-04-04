@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
@@ -12,5 +14,4 @@ class ApplicationRecord < ActiveRecord::Base
   def developer?
     user_type == 'Developer'
   end
-
 end
