@@ -61,7 +61,7 @@
                             </td>
                             <% if (project.bugs.count != 0) && (project.bugs.find_by(assign_id: current_user.id) || !is_developer?) && (project.bugs.find_by(created_id: current_user.id) || !is_qa?) %>
                                 <td>
-                                    <%= link_to project.bugs.count.to_s + " bugs", project_bugs_path(project), :project_id => project.id %>
+                                    <%= link_to pluralize(project.bugs.count, " bug"), project_bugs_path(project), :project_id => project.id %>
                                 </td>
                             <% end %>
                             <% if is_manager? %>

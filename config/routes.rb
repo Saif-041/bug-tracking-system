@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   get 'user/:id/bugs', to: 'bugs#user', as: 'user_bugs'
+  get 'user/:id/features', to: 'bugs#feature', as: 'user_features'
 
 
   # get '/projects', to: 'projects#index'

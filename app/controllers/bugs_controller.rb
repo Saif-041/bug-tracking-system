@@ -8,7 +8,6 @@ class BugsController < ApplicationController
 
     def new
         @bug = @project.bugs.build()
-        # @bugs = Bug.new
         @devs = @project.users.where(user_type: 'Developer')
     end
 
@@ -16,7 +15,7 @@ class BugsController < ApplicationController
         @bugs = Bug.where(created_id: current_user.id) if is_qa?
         @bugs = Bug.where(assign_id: current_user.id) if is_developer?
         @bugs = @project.bugs if is_manager?
-        @bugs = @bugs.paginate(page: params[:page], per_page: 4)
+        @bugs = @bugs.order("updated_at DESC").paginate(page: params[:page], per_page: 4)
     end
 
     def edit
@@ -48,7 +47,7 @@ class BugsController < ApplicationController
         byebug
         if @bug.update(bug_params)
             flash[:success] = "Bug updated successfully."
-            redirect_to projects_path
+            redirect_to project_bug_path(@bug)
         else
             render 'edit', status: 300
         end
@@ -64,9 +63,17 @@ class BugsController < ApplicationController
     end
 
     def user
-        @bugs = Bug.where(assign_id: params[:id]).paginate(page: params[:page], per_page: 5) if is_developer?
-        @bugs = Bug.where(created_id: params[:id]).paginate(page: params[:page], per_page: 5) if is_qa?
-        @bugs = Project.find_by(user_id: params[:id]).bugs.paginate(page: params[:page], per_page: 5) if is_manager?
+        @bugs = Bug.where(assign_id: params[:id]) if is_developer?
+        @bugs = Bug.where(created_id: params[:id]) if is_qa?
+        @bugs = Project.find_by(user_id: params[:id]).bugs if is_manager?
+        @bugs = @bugs.order("updated_at DESC").where(bug_type: "Bug").paginate(page: params[:page], per_page: 4)
+    end
+
+    def feature
+        @features = Bug.where(assign_id: params[:id]) if is_developer?
+        @features = Bug.where(created_id: params[:id]) if is_qa?
+        @features = Project.find_by(user_id: params[:id]).bugs if is_manager?
+        @features = @features.order("updated_at DESC").where(bug_type: "Feature").paginate(page: params[:page], per_page: 4)
     end
 
     private
@@ -76,7 +83,7 @@ class BugsController < ApplicationController
         end
 
         def bug_params
-            # p = params.require(:bug).permit(:title, :description, :deadline, {screenshot: []}, :bug_type, :assign_id)
+            # params.require(:bug).permit(:title, :description, :deadline, {screenshot: []}, :bug_type, :assign_id)
             p = params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id)
             p = params.require(:bug).permit(:bug_status) if is_developer?
             p

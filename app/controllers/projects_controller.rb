@@ -4,16 +4,15 @@ class ProjectsController < ApplicationController
 
     before_action :find_project, only: [:show, :edit, :update, :destroy]
     before_action :find_users, only: [:show, :edit, :update, :new]
-    # before_action :validate_user, only: [:show, :create, :update, :destroy]
-    # before_action :remember_page, only: [:show]
 
     def new
         @project = Project.new
     end
 
     def index
-        @projects = Project.where(user_id: current_user.id).paginate(page: params[:page], per_page: 4) if is_manager?
-        @projects = current_user.projects.paginate(page: params[:page], per_page: 4) if !is_manager?
+        @projects = Project.where(user_id: current_user.id) if is_manager?
+        @projects = current_user.projects if !is_manager?
+        @projects = @projects.order("updated_at DESC").paginate(page: params[:page], per_page: 4)
     end
 
     def edit
@@ -24,7 +23,7 @@ class ProjectsController < ApplicationController
         @project.user_id = current_user.id
         if @project.save
             flash[:success] = "Project created successfully."
-            redirect_to projects_path
+            redirect_to project_path(@project)
         else
             flash[:danger] = "Project was not created."
             render 'new', status: 300
@@ -37,7 +36,7 @@ class ProjectsController < ApplicationController
     def update
         if @project.update(project_params)
             flash[:success] = "Project updated successfully."
-            redirect_to projects_path
+            redirect_to project_path(@project)
         else
             render 'edit', status: 300
         end
@@ -69,9 +68,7 @@ class ProjectsController < ApplicationController
                 q.name = "QA - " + q.name.capitalize
             end
 
-            @user = @dev + @qa
-            
-            byebug
+            @user = @dev + @qa            
         end
 
         def project_params            

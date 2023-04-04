@@ -15,7 +15,7 @@ li.nav-item {
 }
 
 .heading {
-   font-size:xx-large;
+   font-size: xx-large;
 }
 
 #news-letter {
@@ -34,7 +34,7 @@ br {
 
 .seperator{
    color: #27251F;
-   background-color:#27251F;
+   background-color: #27251F;
 }
 
 ul {
@@ -52,7 +52,7 @@ ul > li.disabled {
 }
  
 .pagination {
-   align-items:end;
+   align-items: end;
    align-content: end;
    padding-bottom: 1%;
    padding-top: 1%;
@@ -62,3 +62,14 @@ ul > li.disabled {
    padding-left: 5%;
 }
  
+span {
+   margin-right: 3%;
+}
+
+h6{
+   display: inline;
+}
+
+strong {
+   font-size: 115%;
+}
