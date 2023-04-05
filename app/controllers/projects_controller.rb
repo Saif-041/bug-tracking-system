@@ -13,15 +13,15 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.where(user_id: current_user.id) if manager?
-    @projects = current_user.projects if !manager?
+    @projects = current_user.manager_projects if !manager?
     @projects = @projects.order('updated_at DESC').paginate(page: params[:page], per_page: 4)
   end
 
   def edit() end
 
   def create
-    byebug
-    @project = Project.new(project_params)
+    # byebug
+    # @project = Project.new(project_params)
     @project.user_id = current_user.id
     if @project.save
       flash[:success] = 'Project created successfully.'
@@ -35,10 +35,12 @@ class ProjectsController < ApplicationController
   def show() end
 
   def update
+    byebug
     if @project.update(project_params)
       flash[:success] = 'Project updated successfully.'
       redirect_to project_path(@project)
     else
+      flash[:danger] = 'Project was not updated.'
       render 'edit', status: 300
     end
   end

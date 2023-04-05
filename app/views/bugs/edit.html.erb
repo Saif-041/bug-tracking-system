@@ -1,7 +1,5 @@
 <%= render 'shared/page_title', title: "Edit Bug | Project: #{@project.name.capitalize}" %>
 
-<%#= form_for(@bug, url: "/projects/#{@project.id}/bugs/#{@bug.id}" ) do |f| %>
-
 <%= form_for(@bug, url: project_bug_path(@bug), :method => "put" ) do |f| %>
     <% if qa? %>
         <div class="field">

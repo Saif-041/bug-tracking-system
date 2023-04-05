@@ -19,14 +19,14 @@
               <%= link_to "New Project", new_project_path %>
             </li>
           <% end %>
-          <% if !current_user.projects.nil? %>
+          <% if !current_user.manager_projects.nil? %>
             <li class="nav-item">
               <%# byebug %>
               <%= link_to "Bugs", "/user/#{current_user.id}/bugs" %>
               <%#= link_to "Bugs", project_bugs_path(Project.find_by(user_id: current_user)) %>
             </li>
           <% end %>
-          <% if !current_user.projects.nil? %>
+          <% if !current_user.manager_projects.nil? %>
             <li class="nav-item">
               <%= link_to "Features", "/user/#{current_user.id}/features" %>
             </li>
