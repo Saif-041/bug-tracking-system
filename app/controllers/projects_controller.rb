@@ -3,7 +3,7 @@
 # This class ProjectsController < ActionController
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-	load_and_authorize_resource
+  load_and_authorize_resource
   before_action :find_project, only: %i[show edit update destroy]
   before_action :find_users, only: %i[show edit update new]
 
@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.where(user_id: current_user.id) if manager?
-    @projects = current_user.projects if !manager?
+    @projects = current_user.projects unless manager?
     @projects = @projects.order('updated_at DESC').paginate(page: params[:page], per_page: 4)
   end
 
@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
       redirect_to projects_path
     else
       flash[:danger] = 'Project was not created.'
-      render 'new', status: 300
+      render 'new', status: :multiple_choices
     end
   end
 
@@ -39,7 +39,7 @@ class ProjectsController < ApplicationController
       redirect_to project_path(@project)
     else
       flash[:danger] = 'Project was not updated.'
-      render 'edit', status: 300
+      render 'edit', status: :multiple_choices
     end
   end
 
@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
       flash[:danger] = 'Project deleted successfully.'
       redirect_to projects_path
     else
-      render 'show', status: 300
+      render 'show', status: :multiple_choices
     end
   end
 
@@ -58,25 +58,24 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
   end
 
-  def find_users            
+  def find_users
     @dev = User.select('id,name').where(user_type: 'Developer')
     @dev.each do |developer|
-      developer.name = 'Developer - ' + developer.name.capitalize
+      developer.name = "Developer - #{developer.name.capitalize}"
     end
 
     @qa = User.select('id,name').where(user_type: 'QA')
     @qa.each do |q|
-      q.name = 'QA - ' + q.name.capitalize
+      q.name = "QA - #{q.name.capitalize}"
     end
 
-    @user = @dev + @qa            
+    @user = @dev + @qa
   end
 
-  def project_params            
+  def project_params
     p = params.require(:project).permit(:name, { users: [] })
     p['users'] = p['users'].reject(&:empty?).map(&:to_i)
     p['users'] = p['users'].map { |id| User.find(id) }
     p
   end
-
 end

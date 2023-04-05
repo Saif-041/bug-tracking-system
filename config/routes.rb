@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
@@ -8,9 +9,8 @@ Rails.application.routes.draw do
     resources :bugs
   end
 
-  root "main#home"
+  root 'main#home'
   get 'main/home'
   get 'user/:id/bugs', to: 'bugs#user', as: 'user_bugs'
   get 'user/:id/features', to: 'bugs#feature', as: 'user_features'
-
 end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# class Ability
 class Ability
   include CanCan::Ability
 
@@ -12,7 +13,7 @@ class Ability
       can :manage, Bug
       can :read, Project
     elsif user.developer?
-      can [:index,:show,:edit,:update], Bug
+      can %i[index show edit update], Bug
       can :read, Project
     end
     # if user.manager?
