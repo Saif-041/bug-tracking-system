@@ -17,7 +17,7 @@
                 Description: 
             </em>
             <h6>
-                <%= truncate(bug.description, length: 150) %>
+                <%= truncate(@bug.description, length: 150) %>
             </h6>
         </span>
     </div>
@@ -89,6 +89,8 @@
         </div>
     <% end %>
 
-    <%= link_to "Edit this Bug", edit_bug_path(@bug), :project_id => @project.id  if !manager? %>
-    <%= link_to ('Remove this Bug'), @bug, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" if qa? %>
+    <%= link_to "Edit this Bug", edit_project_bug_path(@bug.project), :project_id => @project.id  if !manager? %>
+    <%= link_to ('Remove this Bug'), project_bug_path(@bug.project), data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" if qa? %>
+    <hr>
+    <%= link_to "Back to Bugs listing", project_bugs_path(@bug.project) %>
 </div>

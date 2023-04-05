@@ -1,4 +1,4 @@
-<%= render 'shared/page_title', title: "Showing All Bug & Feature | Project Title: #{@project.name} " %>
+<%= render 'shared/page_title', title: "Showing All Bug/Feature | Project Title: #{@project.name} " %>
 
 <ul>
     <hr/>
@@ -46,17 +46,19 @@
                 </span>
             </div>
             <br>
-            <div>
-                <span>
-                    <strong>
-                        Screen Shot: 
-                    </strong>
-                    <div>
-                        <%= image_tag bug.screenshot.url if bug.screenshot? %>
-                    </div>
-                </span>
-            </div>
-            <br>
+            <% if bug.screenshot? %>
+                <div>
+                    <span>
+                        <strong>
+                            Screen Shot: 
+                        </strong>
+                        <div>
+                            <%= image_tag bug.screenshot.url if bug.screenshot? %>
+                        </div>
+                    </span>
+                </div>
+                <br>
+            <% end %>
             <div>
                 <span>
                     <strong>
@@ -108,8 +110,8 @@
             <div align="right">
                 <%#= link_to "Edit this Bug", "/projects/#{@project.id}/bugs/#{bug.id}/edit" if !manager? %>
                 <%#= link_to ('Remove this Bug'), "/projects/#{@project.id}/bugs/#{bug.id}", data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" if qa? %>
-                <%= link_to "Edit this Bug", edit_project_bug_path(bug) if !manager? %>
-                <%= link_to ('Remove this Bug'), project_bug_path(bug), data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" if qa? %>
+                <%= link_to "Edit this Bug", edit_project_bug_path(@project,bug) if !manager? %>
+                <%= link_to ('Remove this Bug'), project_bug_path(@project,bug), data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete this bug?" }, class: "btn btn-xs" if qa? %>
             </div>
         <hr/>
     </li>

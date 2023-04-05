@@ -64,10 +64,11 @@
                                     <%= link_to pluralize(project.bugs.count, " bug"), project_bugs_path(project), :project_id => project.id %>
                                 </td>
                             <% end %>
-                            <% if manager? %>
+                            <% if !developer? %>
                                 <td>
                                     <div>
                                         <small>
+                                            <%= link_to "Report Bug", new_project_bug_path("", :project_id => project.id) if qa? %>
                                             <%= link_to "Edit this Project", edit_project_path(project) if manager? %> 
                                             <%= link_to ('Delete this project'), project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{project.name.capitalize}' project?" }, class: "btn btn-xs" if manager? %>
                                         </small>

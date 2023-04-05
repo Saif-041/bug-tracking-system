@@ -1,0 +1,114 @@
+<br>
+
+<% if objs.count == 0 %>
+    <p>
+        No Feature <%= "created" if !qa? %> yet!
+    </p>
+<% else %>
+    <ul>
+        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
+            <ul class=”pagination”>
+                <li class="disabled"> 
+                    <%= will_paginate(objs, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font justify-content-center" ) %>
+                </li>
+            </ul>
+        </div>
+        <% objs.each do |obj| %>
+        <li>
+            <div class="container">
+                <div>
+                    <span class="container">
+                        <h6>
+                            <%= obj.bug_type.capitalize %> Title:
+                        </h6>
+                        <em>
+                            <%= link_to obj.title.capitalize, project_bug_path(obj.project,obj) %>
+                        </em>
+                    </span>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
+                            <th>Project Name</th>
+                            <th>Project Developer's</th>
+                            <th>Project QA's</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <%= truncate(obj.description, length: 150) %>
+                            </td>
+                            <td>
+                                <%= obj.deadline %>
+                            </td>
+                            <td>
+                                <%= obj.bug_status %>
+                            </td>
+                            <td>
+                                <%= link_to obj.project.name.capitalize, obj.project %>
+                            </td>
+                            <td>
+                                <ul>
+                                    <% obj.project.users.where(user_type: "Developer").each do |dev| %>
+                                        <li>
+                                            <%= dev.name.capitalize %>
+                                        </li>
+                                    <% end%>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <% obj.project.users.where(user_type: "QA").each do |qa| %>
+                                        <li>
+                                            <%= qa.name.capitalize %>
+                                        </li>
+                                    <% end%>
+                                </ul>
+                            </td>
+
+                            <% if (@has_bug || !developer?) %>
+                                <td>
+                                    <%#= link_to pluralize(Project.find(obj.project.id).bugs.count, "bug and feature"), project_bugs_path(obj.project), :project_id => obj.project.id %>
+                                    <%= link_to pluralize(obj.project.bugs.where(assign_id: current_user.id).count, " Bug/Feature"), project_bugs_path(obj.project), :project_id => obj.project.id if developer? %>
+                                    <%= link_to pluralize(obj.project.bugs.where(created_id: current_user.id).count, " Bug/Feature"), project_bugs_path(obj.project), :project_id => obj.project.id if qa? %>
+                                    <%= link_to pluralize(obj.project.bugs.count, " Bug/Feature"), project_bugs_path(obj.project), :project_id => obj.project.id if manager? %>
+                                </td>
+                            <% end %>
+
+                            <% if false && manager? %>
+                                <td>
+                                    <div>
+                                        <small>
+                                            <%= link_to "Edit this Project", edit_project_path(obj.project) if manager? %> 
+                                            <%= link_to ('Delete this project'), obj.project, data: { "turbo-method": :delete, turbo_confirm: "Are you sure you want to delete '#{obj.project.name.capitalize}' project?" }, class: "btn btn-xs" if manager? %>
+                                        </small>
+                                    </div>
+                                </td>
+                            <% end %>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="seperator">
+                <br>
+            </div>
+                        
+        </li>
+        <% end %>
+        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-6 padding-zero container">
+            <ul class=”pagination”>
+                <li class="disabled"> 
+                    <%= will_paginate(objs, previous_label: "&laquo;", next_label: "&raquo;", outer_window: 1, inner_window: 0, class: "small-font justify-content-center" ) %>
+                </li>
+            </ul>
+        </div>
+    </ul>
+<% end %>

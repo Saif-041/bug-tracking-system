@@ -1,4 +1,4 @@
-<%= render 'shared/page_title', title: "Edit Bug | Project: #{@project.name.capitalize}" %>
+<%= render 'shared/page_title', title: "Edit Bug | Project: #{@project.name.capitalize}" if !@project.nil? %>
 
 <%= form_for(@bug, url: project_bug_path(@bug), :method => "put" ) do |f| %>
     <% if qa? %>
@@ -31,7 +31,7 @@
 
     <% if developer? %>
         <div class="field bug_status" id="bug_status" data-controller="bug">
-            <%= f.label :bug_status, "Bug Status *" %><br />
+            <%= f.label :bug_status, "#{@bug.bug_type} Status *" %><br />
             <% if @bug.bug_type == "Feature" %>
                 <%= f.select :bug_status, ['New','Started', 'Completed'] %>
             <% else %>

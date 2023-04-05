@@ -5,9 +5,9 @@ class BugsController < ApplicationController
   before_action :authenticate_user!    
   before_action :authenticate_qa, only: %i[new destroy]
   before_action :authenticate_manager, only: %i[edit update]
-
   before_action :find_bug, only: %i[show edit update destroy]
   before_action :find_project, only: %i[edit new show index create]
+  before_action :has_bug, only: %i[user feature]
 
   def new
     @bug = @project.bugs.build
@@ -15,8 +15,8 @@ class BugsController < ApplicationController
   end
 
   def index
-    @bugs = Bug.where(created_id: current_user.id) if qa?
-    @bugs = Bug.where(assign_id: current_user.id) if developer?
+    @bugs = @project.bugs.where(assign_id: current_user.id) if developer?
+    @bugs = @project.bugs.where(created_id: current_user.id) if qa?
     @bugs = @project.bugs if manager?
     @bugs = @bugs.order('updated_at DESC').paginate(page: params[:page], per_page: 4)
   end
@@ -28,7 +28,7 @@ class BugsController < ApplicationController
     @bug.created_id = current_user.id
     if @bug.save
       flash[:success] = 'Bug created successfully.'
-      redirect_to @bug.project
+      redirect_to project_bug_path(@bug)
     else
       flash[:danger] = 'Bug was not created. Bug Title should be unique.'
       render 'new', status: 300
@@ -42,7 +42,7 @@ class BugsController < ApplicationController
   def update
     if @bug.update(bug_params)
       flash[:success] = 'Bug updated successfully.'
-      redirect_to project_bug_path(@bug)
+      redirect_to project_bug_path(@bug.project)
     else
       render 'edit', status: 300
     end
@@ -99,6 +99,10 @@ class BugsController < ApplicationController
       flash[:warning] = 'You are not authorized to access this page.'
       redirect_to project_bugs_path
     end
+  end
+
+  def has_bug
+    @has_bug = Bug.find_by(assign_id: current_user.id)
   end
 
 end
