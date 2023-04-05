@@ -17,9 +17,9 @@ class BugsController < ApplicationController
   end
 
   def index
-    @bugs = @project.bugs.where(assign_id: current_user.id) if developer?
-    @bugs = @project.bugs.where(created_id: current_user.id) if qa?
-    @bugs = @project.bugs if manager?
+    @bugs = @project.bugs
+    @bugs = @bugs.where(assign_id: current_user.id) if developer?
+    @bugs = @bugs.where(created_id: current_user.id) if qa?
     @bugs = @bugs.order('updated_at DESC').paginate(page: params[:page], per_page: 4)
   end
 
@@ -76,9 +76,9 @@ class BugsController < ApplicationController
   end
 
   def bug_params
-    p = params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id)
-    p = params.require(:bug).permit(:bug_status) if developer?
-    p
+    return  params.require(:bug).permit(:bug_status) if developer?
+
+    params.require(:bug).permit(:title, :description, :deadline, :screenshot, :bug_type, :assign_id)
   end
 
   def find_project
