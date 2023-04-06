@@ -16,17 +16,21 @@
           <%= f.email_field :email, autocomplete: "email" %>
         </div>
         <br>
+
         <div class="field">
           <%= f.label :user_type, "User Role" %>
-          <%= f.select :user_type, ['QA', 'Developer', 'Manager'], selected: 'Developer' %>
+          <%= f.select :user_type, User.user_types.map { |key, value| [key, value] } , selected: 2 %>
         </div>
         <br>
 
         <div class="field">
           <%= f.label :password %>
           <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-          <% end %><br />
+            <em>
+              (<%= @minimum_password_length %> characters minimum)
+            </em>
+          <% end %>
+          <br />
           <%= f.password_field :password, autocomplete: "new-password" %>
         </div>
 
@@ -35,10 +39,12 @@
           <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
         </div>
         <br>
+
         <div class="actions">
           <%= f.submit "Sign up" %>
         </div>
-      <br>
+        <br>
+
     <% end %>
 
     <%= render "users/shared/links" %>

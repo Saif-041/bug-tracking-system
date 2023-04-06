@@ -8,8 +8,6 @@ class BugsController < ApplicationController
   before_action :find_bug, only: %i[show edit update destroy]
   before_action :find_project, only: %i[edit new show index create]
   before_action :bug?, only: %i[user feature]
-  before_action :find_features, only: :feature
-  before_action :find_bugs, only: :user
 
   def new
     @bug = @project.bugs.build
@@ -30,7 +28,7 @@ class BugsController < ApplicationController
     @bug.created_id = current_user.id
     if @bug.save
       flash[:success] = 'Bug created successfully.'
-      redirect_to project_bug_path(@bug)
+      redirect_to project_bug_path(@bug.project,@bug)
     else
       flash[:danger] = 'Bug was not created. Bug Title should be unique.'
       render 'new', status: :multiple_choices
@@ -62,10 +60,12 @@ class BugsController < ApplicationController
   end
 
   def user
-    @bugs = @bugs.order('updated_at DESC').where(bug_type: 'Bug').paginate(page: params[:page], per_page: 4)
+    @bugs = find_bugs
+    @bugs = @bugs.where(bug_type: 'Bug').paginate(page: params[:page], per_page: 4)
   end
 
   def feature
+    @features = find_bugs
     @features = @features.order('updated_at DESC').where(bug_type: 'Feature').paginate(page: params[:page], per_page: 4)
   end
 
@@ -85,16 +85,15 @@ class BugsController < ApplicationController
     @project = Project.find(params[:project_id])
   end
 
-  def find_features
-    @features = Bug.where(assign_id: params[:id]) if developer?
-    @features = Bug.where(created_id: params[:id]) if qa?
-    @features = Project.find_by(user_id: params[:id]).bugs if manager?
-  end
-
   def find_bugs
-    @bugs = Bug.where(assign_id: params[:id]) if developer?
-    @bugs = Bug.where(created_id: params[:id]) if qa?
-    @bugs = Project.find_by(user_id: params[:id]).bugs if manager?
+    return @bugs = Bug.where(assign_id: params[:id]) if developer?
+    return @bugs = Bug.where(created_id: params[:id]) if qa?
+    @bugs = Bug.where(created_id: params[:id])
+    @proj = Project.where(user_id: params[:id]) if manager?
+    @proj.each do |project|
+      @bugs = @bugs + project.bugs
+    end
+    Bug.where(id: @bugs.map(&:id))
   end
 
   def authenticate_qa

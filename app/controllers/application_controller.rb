@@ -9,17 +9,17 @@ class ApplicationController < ActionController::Base
 
   helper_method :manager?
   def manager?
-    current_user && current_user.user_type == 'Manager'
+    current_user && (current_user.user_type == '0' || current_user.user_type == 'Manager')
   end
 
   helper_method :qa?
   def qa?
-    current_user && current_user.user_type == 'QA'
+    current_user && (current_user.user_type == '1' || current_user.user_type == 'QA')
   end
 
   helper_method :developer?
   def developer?
-    current_user && current_user.user_type == 'Developer'
+    current_user && (current_user.user_type == '2' || current_user.user_type == 'Developer')
   end
 
   protected

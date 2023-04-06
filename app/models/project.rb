@@ -3,7 +3,7 @@
 # class Project < ApplicationRecord
 class Project < ApplicationRecord
   validates :name, presence: true
-  belongs_to :manager, class_name: 'User', foreign_key: 'user_id', inverse_of: :project
+  belongs_to :manager, class_name: 'User', foreign_key: 'user_id'
 
   has_many :bugs, dependent: :destroy
 
