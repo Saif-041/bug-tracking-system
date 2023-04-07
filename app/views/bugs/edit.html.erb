@@ -3,12 +3,12 @@
 <%= form_for(@bug, url: project_bug_path(@bug), :method => "put" ) do |f| %>
     <% if qa? %>
         <div class="field">
-            <%= f.label :title %><br />
+            <%= f.label :title, "Title *" %><br />
             <%= f.text_field :title, autofocus: true %>
         </div>
         <br>
         <div class="field">
-            <%= f.label :description %><br />
+            <%= f.label :description, "Description (optional)" %><br />
             <%= f.text_area :description %>
         </div>
         <br>
@@ -18,7 +18,7 @@
         </div>
         <br>
         <div class="field">
-            <%= f.label :screenshot, "Add Screenshot" %><br />
+            <%= f.label :screenshot, "Add Screenshot (only png gif file accepted)" %><br />
             <%= f.file_field :screenshot %>
         </div>
         <br>
@@ -40,21 +40,21 @@
         </div>
         <br>
     <% end %>
-    
-    <% if @bug.new_record? %>
+
+    <% if @bug.new_record? && !@devs.nil? %>
         <div class="field">
             <%= f.label :assign_id, "Assign To:" %><br />
-            <%= f.collection_select :assign_id, User.where(user_type: 'Developer'), :id, :name do |cs| %>
+            <%= f.collection_select :assign_id, @devs, :id, :name do |cs| %>
                 <%= cs.label :name %>
             <% end %>
         </div>
         <br>
     <% end %>
-    
+    <br>
     <div class="actions">
         <%= f.submit "Updated Bug" %>
     </div>
-    
+
 <% end %>
 
 <br>

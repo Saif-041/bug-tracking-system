@@ -7,11 +7,11 @@ class BugsController < ApplicationController
   before_action :authenticate_manager, only: %i[edit update]
   before_action :find_bug, only: %i[show edit update destroy]
   before_action :find_project, only: %i[edit new show index create]
+  before_action :find_devs, only: %i[new edit]
   before_action :bug?, only: %i[user feature]
 
   def new
     @bug = @project.bugs.build
-    @devs = @project.users.where(user_type: 'Developer') # used in view
   end
 
   def index
@@ -83,6 +83,10 @@ class BugsController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
+  end
+
+  def find_devs
+    @devs = @project.users.where(user_type: 'Developer') # used in view
   end
 
   def find_bugs

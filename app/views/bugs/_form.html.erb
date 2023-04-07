@@ -1,58 +1,63 @@
 <%= form_for @bug, url: project_bugs_path do |f| %>
+        <% if qa? %>
+            <div class="field">
+                <%= f.label :title, "Title *" %><br />
+                <%= f.text_field :title, autofocus: true %>
+            </div>
+            <br>
 
-    <div class="field">
-        <%= f.label :title, "Title *" %><br />
-        <%= f.text_field :title, autofocus: true %>
-    </div>
-    <br>
+            <div class="field">
+                <%= f.label :description, "Description (optional)" %><br />
+                <%= f.text_area :description %>
+            </div>
+            <br>
 
-    <div class="field">
-        <%= f.label :description, "Description (optional)" %><br />
-        <%= f.text_area :description %>
-    </div>
-    <br>
+            <div class="field">
+                <%= f.label :deadline, "Set Deadline" %><br />
+                <%= f.date_select :deadline %>
+            </div>
+            <br>
 
-    <div class="field">
-        <%= f.label :deadline, "Set Deadline" %><br />
-        <%= f.date_select :deadline %>
-    </div>
-    <br>
+            <div class="field">
+                <%= f.label :screenshot, "Add Screenshot (only png gif file accepted)" %><br />
+                <%= f.file_field :screenshot %>
+            </div>
+            <br>
 
-    <div class="field">
-        <%= f.label :screenshot, "Add Screenshot (only png gif)" %><br />
-        <%= f.file_field :screenshot %>
-    </div>
-    <br>
+            <div class="field bug_type" id="bug_type" data-controller="bug">
+                <%= f.label :bug_type, "Bug Type *" %><br />
+                <%= f.select :bug_type, ['Feature','Bug'] %>
+            </div>
+            <br>
+        <% end %>
 
-    <div class="field bug_type" id="bug_type" data-controller="bug">
-        <%= f.label :bug_type, "Bug Type *" %><br />
-        <%= f.select :bug_type, ['Feature','Bug'] %>
-    </div>
-    <br>
+        <% if developer? %>
+            <div class="field bug_status" id="bug_status" data-controller="bug">
+                <%= f.label :bug_status, "#{@bug.bug_type} Status *" %><br />
+                <% if @bug.bug_type == "Feature" %>
+                    <%= f.select :bug_status, ['New','Started', 'Completed'] %>
+                <% else %>
+                    <%= f.select :bug_status, ['New','Started', 'Resolved'] %>
+                <% end %>
+            </div>
+            <br>
+        <% end %>
 
-    <% if developer? %>
-        <div class="field bug_status" id="bug_status" data-controller="bug">
-            <%= f.label :bug_status, "Bug Type" %><br />
-            <%= f.select :bug_status, ['New','Started', 'Completed'] %>
-        </div>
+        <% if @bug.new_record? && !@devs.nil? %>
+            <div class="field">
+                <%= f.label :assign_id, "Assign To:" %><br />
+                <%= f.collection_select :assign_id, @devs, :id, :name do |cs| %>
+                    <%= cs.label :name %>
+                <% end %>
+            </div>
+            <br>
+        <% end %>
         <br>
-    <% end %>
-    
-    <% if @bug.new_record? && !@devs.nil?%>
-        <div class="field">
-            <%= f.label :assign_id, "Assign To:" %><br />
-            <%= f.collection_select :assign_id, @devs, :id, :name do |cs| %>
-                <%= cs.label :name %>
-            <% end %>
+        <div class="actions">
+            <%= f.submit(@bug.new_record? ? "Create Bug" : "Update Bug") %>
         </div>
-        <br>
-    <% end %>
-    <br>
-    <div class="actions">
-        <%= f.submit(@bug.new_record? ? "Create Bug" : "Update Bug") %>
-    </div>
 
-<% end %>
+    <% end %>
 
 <br>
 <%= link_to "Back to Bugs listing", project_bugs_path(@bug.project) %>
